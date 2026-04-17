@@ -5,6 +5,7 @@
 \title{Add a generic surface layer}
 \usage{
 geom_xgeo_surface(
+  feature = NULL,
   scaling = 1,
   alpha = 0.7,
   smooth = FALSE,
@@ -13,6 +14,8 @@ geom_xgeo_surface(
 )
 }
 \arguments{
+\item{feature}{Optional feature subset to aggregate before rendering.}
+
 \item{scaling}{Vertical scale multiplier for explanation values.}
 
 \item{alpha}{Surface alpha.}

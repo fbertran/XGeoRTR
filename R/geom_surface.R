@@ -1,5 +1,6 @@
 #' Add a generic surface layer
 #'
+#' @param feature Optional feature subset to aggregate before rendering.
 #' @param scaling Vertical scale multiplier for explanation values.
 #' @param alpha Surface alpha.
 #' @param smooth Whether to apply a simple neighborhood average before
@@ -9,7 +10,8 @@
 #'
 #' @return An `xgeo_layer` object.
 #' @export
-geom_xgeo_surface <- function(scaling = 1,
+geom_xgeo_surface <- function(feature = NULL,
+                              scaling = 1,
                               alpha = 0.7,
                               smooth = FALSE,
                               low_fill = "#20639B",
@@ -27,6 +29,7 @@ geom_xgeo_surface <- function(scaling = 1,
   structure(
     list(
       geom = "surface",
+      feature = feature,
       scaling = scaling,
       alpha = alpha,
       smooth = smooth,

@@ -1,37 +1,53 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+
+
 # XGeoRTR
 ## Frédéric Bertrand
 
-`XGeoRTR` is the general platform package for spatial explanation geometry in R.
-It owns the neutral data model, scene abstraction, regular-grid surface view,
-and `rgl` / WebGL export path that can support SHAP and non-SHAP workflows.
+`XGeoRTR` is the general platform package for explanation geometry in R. It
+owns the neutral data model, scene abstraction, embeddings, diagnostics,
+multiscale summaries, and `rgl` / WebGL export path.
 
 ## Main features
 
-- `xgeo_data` S3 objects for generic spatial explanation tables.
-- `as_xgeo_data()` helpers that standardize matrices and long tables into a
-  common scene-ready structure.
-- `xgeo_scene()` plus `geom_xgeo_surface()` for a generic spatial surface view.
-- `render_webgl()` for rendering to `rgl` and exporting HTML widgets when
+- Normalized `xgeo_data` objects with explicit `points`, `explanations`,
+  `point_meta`, `feature_meta`, `predictions`, and `uncertainty`.
+- `as_xgeo_data()` preserves unmapped point-level metadata during ingestion.
+- `xgeo_scene()` owns embeddings, diagnostics, selection state, LOD state, and
+  scene metadata.
+- `compute_xgeo_embedding()`, `compute_xgeo_diagnostics()`, and
+  `build_xgeo_lod()` provide a first platform path for embeddings,
+  trustworthiness, local agreement, and density-grid multiscale summaries.
+- `geom_xgeo_surface()`, `geom_xgeo_points()`, and `geom_xgeo_density()` cover
+  regular-grid, point-cloud, and density views.
+- `render_webgl()` renders scenes to `rgl` and exports HTML widgets when
   `htmlwidgets` is available.
-- A packaged spatial demo dataset under `inst/extdata/`.
+- `write_xgeo_scene()` / `read_xgeo_scene()` provide JSON scene interchange.
 
 ## Installation
 
 For local development from checked-out repositories:
 
 ```r
-install.packages(c("cli", "rgl"))
+install.packages(c("cli", "jsonlite", "rgl"))
 devtools::load_all(".")
 ```
 
 Optional packages:
 
 - `htmlwidgets` for `render_webgl(file = ...)`
+- `uwot` for optional UMAP embeddings
 - `knitr`, `rmarkdown`, and `pkgdown` for documentation work
 
 ## A first generic workflow
 
-```r
+
+``` r
 library(XGeoRTR)
 
 demo_path <- system.file("extdata", "spatial_demo.csv", package = "XGeoRTR")
@@ -51,22 +67,56 @@ xd <- as_xgeo_data(
 summary(xd)
 ```
 
-## Render a generic surface
+## Build a platform scene
 
-```r
-scene <- xgeo_scene(xd, camera = list(preset = "top")) +
+
+``` r
+scene <- xgeo_scene(xd, camera = list(preset = "top"))
+scene <- compute_xgeo_embedding(scene, method = "pca", source = "points", dims = 2)
+scene <- set_active_embedding(scene, "pca_points")
+scene <- compute_xgeo_diagnostics(scene, embedding = "pca_points", source = "points", k = 3)
+scene <- build_xgeo_lod(scene, embedding = "pca_points", levels = c(8L, 16L), auto_threshold = 10L)
+```
+
+## Render point and density views
+
+
+``` r
+point_scene <- scene + geom_xgeo_points(color_by = "local_agreement", size = 8)
+density_scene <- scene + geom_xgeo_density(lod_name = "density_grid_pca_points", level = "16")
+surface_scene <- xgeo_scene(xd, camera = list(preset = "top")) +
   geom_xgeo_surface(alpha = 0.7, smooth = TRUE)
 
-render_webgl(scene)
+render_webgl(point_scene, lod_level = "auto")
+render_webgl(density_scene)
+render_webgl(surface_scene)
+```
+
+## Write and reload a scene
+
+
+``` r
+out_json <- tempfile(fileext = ".json")
+write_xgeo_scene(point_scene, out_json)
+restored_scene <- read_xgeo_scene(out_json)
 ```
 
 ## Status
 
-`XGeoRTR` is the general platform layer for the current spatial-only MVP. In
-this first wave it intentionally covers only:
+`XGeoRTR` is the general platform layer for the current spatial-only release.
+It already owns:
 
-- generic precomputed explanation tables
-- one spatial structure
-- one working `rgl` renderer
-- one generic surface layer
-- HTML export for package and poster workflows
+- scene model
+- embeddings
+- diagnostics
+- density-grid LOD summaries
+- interaction state through explicit selection and active-view state
+- JSON export/import
+- point, density, and surface rendering
+
+The current boundary is still deliberate:
+
+- one structure type: `spatial`
+- one rendering backend: `rgl`
+- no browser-side zoom callbacks yet
+- no mesh or event-time renderers yet

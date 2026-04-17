@@ -4,11 +4,9 @@
 \alias{render_xgeo_layer}
 \title{Render one \code{xgeo_layer}}
 \usage{
-render_xgeo_layer(data, layer, scene, ...)
+render_xgeo_layer(layer, scene, ...)
 }
 \arguments{
-\item{data}{Long-table data from an \code{xgeo_data} object.}
-
 \item{layer}{Layer object to render.}
 
 \item{scene}{Parent scene.}

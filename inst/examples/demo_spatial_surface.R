@@ -34,15 +34,13 @@ demo_path <- function() {
 
 save_optional_html <- function(scene, stem) {
   if (!requireNamespace("htmlwidgets", quietly = TRUE)) {
-    cat("htmlwidgets not installed; skipping HTML export.
-")
+    cat("htmlwidgets not installed; skipping HTML export.\n")
     return(invisible(NULL))
   }
 
   out_file <- file.path(tempdir(), paste0(stem, ".html"))
   render_webgl(scene, file = out_file, selfcontained = FALSE, open = FALSE)
-  cat("Saved HTML:", out_file, "
-")
+  cat("Saved HTML:", out_file, "\n")
   invisible(out_file)
 }
 
@@ -64,16 +62,38 @@ xd <- as_xgeo_data(
   meta = list(source = "synthetic-demo", sample_id = "grid-01")
 )
 
-cat("== Generic spatial surface demo ==
-")
+cat("== XGeoRTR platform demo ==\n")
 print(summary(xd))
 
-scene <- xgeo_scene(xd, camera = list(preset = "top")) +
+surface_scene <- xgeo_scene(xd, camera = list(preset = "top")) +
   geom_xgeo_surface(alpha = 0.72, smooth = TRUE)
 
-invisible(render_webgl(scene, open = FALSE))
-cat("
-Rendered generic surface scene headlessly.
-")
-save_optional_html(scene, "xgeort-demo-surface")
+platform_scene <- xgeo_scene(xd, camera = list(preset = "top"))
+platform_scene <- compute_xgeo_embedding(platform_scene, method = "pca", source = "points", dims = 2)
+platform_scene <- set_active_embedding(platform_scene, "pca_points")
+platform_scene <- compute_xgeo_diagnostics(
+  platform_scene,
+  embedding = "pca_points",
+  source = "points",
+  k = 3
+)
+platform_scene <- build_xgeo_lod(
+  platform_scene,
+  embedding = "pca_points",
+  levels = c(8L, 16L),
+  auto_threshold = 10L
+)
+point_scene <- platform_scene + geom_xgeo_points(color_by = "local_agreement", size = 8)
+
+invisible(render_webgl(surface_scene, open = FALSE))
+cat("\nRendered surface scene headlessly.\n")
+invisible(render_webgl(point_scene, lod_level = "auto", open = FALSE))
+cat("Rendered point-cloud scene with automatic density LOD headlessly.\n")
+
+json_file <- file.path(tempdir(), "xgeort-demo-scene.json")
+write_xgeo_scene(point_scene, json_file)
+cat("Saved scene JSON:", json_file, "\n")
+
+save_optional_html(surface_scene, "xgeort-demo-surface")
+save_optional_html(point_scene, "xgeort-demo-points")
 try(rgl::close3d(), silent = TRUE)

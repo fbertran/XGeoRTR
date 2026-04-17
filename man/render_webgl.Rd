@@ -4,10 +4,19 @@
 \alias{render_webgl}
 \title{Render an \code{xgeo_scene} to \code{rgl} / WebGL}
 \usage{
-render_webgl(scene, file = NULL, selfcontained = FALSE, open = interactive())
+render_webgl(
+  scene,
+  lod_level = NULL,
+  file = NULL,
+  selfcontained = FALSE,
+  open = interactive()
+)
 }
 \arguments{
 \item{scene}{An \code{xgeo_scene} object.}
+
+\item{lod_level}{Optional LOD selector. Use \code{"auto"} to switch point layers
+to the active density bundle when the point threshold is exceeded.}
 
 \item{file}{Optional HTML output path. When supplied, \code{htmlwidgets} is used
 to save an \code{rglwidget}.}

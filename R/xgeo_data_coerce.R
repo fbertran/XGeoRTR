@@ -22,39 +22,26 @@ as_xgeo_data.data.frame <- function(x,
                                     y_col = "y",
                                     z_col = NULL,
                                     feature_col = NULL,
+                                    point_id_col = NULL,
                                     baseline = NULL,
                                     structure = "spatial",
                                     method = "generic",
                                     meta = list(),
                                     ...) {
-  required_cols <- c(value_col, x_col, y_col)
-  if (!is.null(z_col)) {
-    required_cols <- c(required_cols, z_col)
-  }
-  if (!is.null(feature_col)) {
-    required_cols <- c(required_cols, feature_col)
-  }
-  .assert_required_columns(x, required_cols)
-
-  data <- data.frame(
-    feature = if (is.null(feature_col)) {
-      paste0("feature_", seq_len(nrow(x)))
-    } else {
-      as.character(x[[feature_col]])
-    },
-    x = as.numeric(x[[x_col]]),
-    y = as.numeric(x[[y_col]]),
-    z = if (is.null(z_col)) {
-      rep(0, nrow(x))
-    } else {
-      as.numeric(x[[z_col]])
-    },
-    value = as.numeric(x[[value_col]]),
-    stringsAsFactors = FALSE
+  tables <- .coerce_spatial_long_table(
+    x = x,
+    value_col = value_col,
+    x_col = x_col,
+    y_col = y_col,
+    z_col = z_col,
+    feature_col = feature_col,
+    point_id_col = point_id_col
   )
 
   new_xgeo_data(
-    values = data,
+    points = tables$points,
+    explanations = tables$explanations,
+    point_meta = tables$point_meta,
     baseline = baseline,
     structure = structure,
     method = method,
@@ -79,29 +66,56 @@ as_xgeo_data.matrix <- function(x,
       x = seq_len(nrow(x)),
       y = seq_len(ncol(x))
     )
-    data <- data.frame(
-      feature = paste0("cell_", seq_len(nrow(grid))),
+    points <- .empty_df(
+      point_id = paste0("point_", seq_len(nrow(grid))),
       x = grid$x,
       y = grid$y,
-      z = 0,
-      value = as.vector(x),
-      stringsAsFactors = FALSE
+      z = 0
+    )
+    explanations <- .empty_df(
+      point_id = points$point_id,
+      feature = "value",
+      value = as.vector(x)
     )
 
-    return(
-      new_xgeo_data(
-        values = data,
-        baseline = baseline,
-        structure = structure,
-        method = method,
-        meta = meta
-      )
+    return(new_xgeo_data(
+      points = points,
+      explanations = explanations,
+      baseline = baseline,
+      structure = structure,
+      method = method,
+      meta = meta
+    ))
+  }
+
+  coordinates <- .normalize_table(coordinates, c("x", "y"), "coordinates")
+  if (!("z" %in% names(coordinates))) {
+    coordinates$z <- 0
+  }
+
+  if (!("point_id" %in% names(coordinates))) {
+    coordinates$point_id <- paste0("point_", seq_len(nrow(coordinates)))
+  }
+
+  values_vec <- as.vector(x)
+  if (nrow(coordinates) != length(values_vec)) {
+    cli::cli_abort(
+      "{.arg coordinates} must have the same number of rows as {.arg x} has elements."
     )
   }
 
+  points <- coordinates[, c("point_id", "x", "y", "z"), drop = FALSE]
+  point_meta <- coordinates[, setdiff(names(coordinates), c("x", "y", "z")), drop = FALSE]
+  explanations <- .empty_df(
+    point_id = as.character(points$point_id),
+    feature = "value",
+    value = values_vec
+  )
+
   new_xgeo_data(
-    values = as.vector(x),
-    coordinates = coordinates,
+    points = points,
+    explanations = explanations,
+    point_meta = point_meta,
     baseline = baseline,
     structure = structure,
     method = method,

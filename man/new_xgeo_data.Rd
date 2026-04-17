@@ -2,12 +2,15 @@
 % Please edit documentation in R/xgeo_data_class.R
 \name{new_xgeo_data}
 \alias{new_xgeo_data}
-\title{Create a \code{xgeo_data} object}
+\title{Create a normalized \code{xgeo_data} object}
 \usage{
 new_xgeo_data(
-  values,
-  coordinates = NULL,
-  features = NULL,
+  points,
+  explanations,
+  point_meta = NULL,
+  feature_meta = NULL,
+  predictions = NULL,
+  uncertainty = NULL,
   baseline = NULL,
   structure = "spatial",
   method = "generic",
@@ -15,18 +18,22 @@ new_xgeo_data(
 )
 }
 \arguments{
-\item{values}{A numeric vector, numeric matrix, or data frame containing
-precomputed explanation values.}
+\item{points}{Point table with \code{point_id}, \code{x}, \code{y}, and optional \code{z}.}
 
-\item{coordinates}{Optional coordinate table with \code{x}, \code{y}, and optional \code{z}
-columns when \code{values} is numeric.}
+\item{explanations}{Explanation table with \code{point_id}, \code{feature}, and
+\code{value}.}
 
-\item{features}{Optional feature metadata table with at least a \code{feature}
-column.}
+\item{point_meta}{Optional point-level metadata keyed by \code{point_id}.}
+
+\item{feature_meta}{Optional feature-level metadata keyed by \code{feature}.}
+
+\item{predictions}{Optional point-level predictions keyed by \code{point_id}.}
+
+\item{uncertainty}{Optional point-level uncertainty keyed by \code{point_id}.}
 
 \item{baseline}{Optional numeric scalar reference value.}
 
-\item{structure}{Structure name for the object. The MVP currently supports
+\item{structure}{Structure name for the object. The current release supports
 only \code{"spatial"}.}
 
 \item{method}{Method label for the explanations represented in the object.}
@@ -37,5 +44,5 @@ only \code{"spatial"}.}
 An object of class \code{xgeo_data}.
 }
 \description{
-Create a \code{xgeo_data} object
+Create a normalized \code{xgeo_data} object
 }

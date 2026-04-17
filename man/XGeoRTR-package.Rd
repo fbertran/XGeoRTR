@@ -4,11 +4,13 @@
 \name{XGeoRTR-package}
 \alias{XGeoRTR}
 \alias{XGeoRTR-package}
-\title{XGeoRTR: Spatial Explanation Geometry and Rendering Infrastructure}
+\title{XGeoRTR: Explanation Geometry, Embeddings, Diagnostics, and Multiscale Rendering}
 \description{
-Platform-level tools for standardizing generic spatial explanation tables
-into \code{xgeo_data} objects, composing \code{xgeo_scene} specifications, and
-rendering regular-grid explanation surfaces with \code{rgl} / WebGL workflows.
+Platform-level tools for standardizing explanation geometries into
+normalized \code{xgeo_data} objects, composing \code{xgeo_scene} specifications with
+embeddings, diagnostics, selection state, and level-of-detail summaries,
+and rendering point, density, and surface views through \code{rgl} / WebGL
+workflows.
 }
 \author{
 \strong{Maintainer}: Frederic Bertrand \email{frederic.bertrand@lecnam.net} (\href{https://orcid.org/0000-0002-0837-8281}{ORCID})
