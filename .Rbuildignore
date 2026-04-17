@@ -1,0 +1,14 @@
+^\.Rproj.user$
+^\.Rhistory$
+^\.RData$
+^\.DS_Store$
+^README\.Rmd$
+^README\.md$
+^README\.html$
+\.Rcheck$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.github$
+^benchmark-results$
+^docs$
+^extra_docs$
