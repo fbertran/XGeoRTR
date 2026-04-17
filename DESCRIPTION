@@ -1,0 +1,32 @@
+Package: XGeoRTR
+Title: Spatial Explanation Geometry and Rendering Infrastructure
+Date: 2026-04-17
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Frederic", family = "Bertrand", role = c("cre", "aut"),
+      email = "frederic.bertrand@lecnam.net", comment = c(ORCID = "0000-0002-0837-8281"))
+    )
+Author: Frederic Bertrand [cre, aut] (<https://orcid.org/0000-0002-0837-8281>)
+Maintainer: Frederic Bertrand <frederic.bertrand@lecnam.net>
+Description: Provides the general platform layer for spatial explanation
+    geometry in R. The package standardizes generic explanation tables into
+    a neutral 'xgeo_data' object, composes interactive 'xgeo_scene'
+    specifications, renders regular-grid surfaces through 'rgl' / WebGL,
+    and exports HTML widgets for shareable prototype workflows.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends: R (>= 4.1.0)
+Imports:
+    cli,
+    rgl
+Suggests:
+    htmlwidgets,
+    knitr,
+    pkgdown,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Config/Needs/website: pkgdown

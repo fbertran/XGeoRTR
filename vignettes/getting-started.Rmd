@@ -1,0 +1,83 @@
+---
+title: "Getting Started with XGeoRTR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with XGeoRTR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+options(rgl.useNULL = TRUE)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`XGeoRTR` is the general platform package for the current spatial-only MVP. It
+owns the neutral explanation object, scene abstraction, generic surface layer,
+and `rgl` / WebGL export path.
+
+The first release is intentionally narrow:
+
+- one neutral data object: `xgeo_data`
+- one composable scene container: `xgeo_scene()`
+- one generic regular-grid view: `geom_xgeo_surface()`
+- one export path: `render_webgl()`
+
+## Create an `xgeo_data` object
+
+```{r}
+library(XGeoRTR)
+
+demo_path <- system.file("extdata", "spatial_demo.csv", package = "XGeoRTR")
+demo_tbl <- utils::read.csv(demo_path, stringsAsFactors = FALSE)
+
+xd <- as_xgeo_data(
+  demo_tbl,
+  x_col = "x",
+  y_col = "y",
+  z_col = "z",
+  value_col = "value",
+  feature_col = "feature",
+  method = "surface-demo",
+  meta = list(source = "synthetic-demo", sample_id = "grid-01")
+)
+
+xd
+summary(xd)
+```
+
+## Build a scene
+
+```{r}
+scene <- xgeo_scene(xd, camera = list(preset = "top")) +
+  geom_xgeo_surface(alpha = 0.7, smooth = TRUE)
+
+scene
+```
+
+## Render to WebGL
+
+Rendering requires `rgl`. Saving to an HTML file also requires `htmlwidgets`.
+
+```{r, eval = FALSE}
+render_webgl(scene)
+
+outfile <- tempfile(fileext = ".html")
+render_webgl(scene, file = outfile, selfcontained = FALSE)
+```
+
+## Platform position
+
+`XGeoRTR` is the substrate for explanation packages rather than a SHAP package
+itself. SHAP-specific semantics and layouts now belong in `shapViz3D`, while
+`XGeoRTR` owns the parts that still make sense for non-SHAP explanation tables:
+
+- generic ingestion
+- scene composition
+- regular-grid rendering
+- camera/orbit metadata
+- HTML export

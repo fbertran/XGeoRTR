@@ -1,0 +1,34 @@
+title: "XGeoRTR"
+lang: en
+
+news:
+  one_page: true
+
+template:
+  bootstrap: 5
+  bslib:
+    pkgdown-nav-height: 60px
+    base_font: {google: "Inter"}
+    heading_font: {google: "Inter"}
+  bootswatch: flatly
+
+development:
+  mode: auto
+
+navbar:
+  structure:
+    left:
+      - intro
+      - reference
+      - articles
+      - news
+
+articles:
+  - title: Basics
+    contents:
+      - getting-started
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with

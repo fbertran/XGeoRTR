@@ -1,0 +1,72 @@
+# XGeoRTR
+## Frédéric Bertrand
+
+`XGeoRTR` is the general platform package for spatial explanation geometry in R.
+It owns the neutral data model, scene abstraction, regular-grid surface view,
+and `rgl` / WebGL export path that can support SHAP and non-SHAP workflows.
+
+## Main features
+
+- `xgeo_data` S3 objects for generic spatial explanation tables.
+- `as_xgeo_data()` helpers that standardize matrices and long tables into a
+  common scene-ready structure.
+- `xgeo_scene()` plus `geom_xgeo_surface()` for a generic spatial surface view.
+- `render_webgl()` for rendering to `rgl` and exporting HTML widgets when
+  `htmlwidgets` is available.
+- A packaged spatial demo dataset under `inst/extdata/`.
+
+## Installation
+
+For local development from checked-out repositories:
+
+```r
+install.packages(c("cli", "rgl"))
+devtools::load_all(".")
+```
+
+Optional packages:
+
+- `htmlwidgets` for `render_webgl(file = ...)`
+- `knitr`, `rmarkdown`, and `pkgdown` for documentation work
+
+## A first generic workflow
+
+```r
+library(XGeoRTR)
+
+demo_path <- system.file("extdata", "spatial_demo.csv", package = "XGeoRTR")
+demo_tbl <- utils::read.csv(demo_path, stringsAsFactors = FALSE)
+
+xd <- as_xgeo_data(
+  demo_tbl,
+  x_col = "x",
+  y_col = "y",
+  z_col = "z",
+  value_col = "value",
+  feature_col = "feature",
+  method = "surface-demo",
+  meta = list(source = "synthetic-demo", sample_id = "grid-01")
+)
+
+summary(xd)
+```
+
+## Render a generic surface
+
+```r
+scene <- xgeo_scene(xd, camera = list(preset = "top")) +
+  geom_xgeo_surface(alpha = 0.7, smooth = TRUE)
+
+render_webgl(scene)
+```
+
+## Status
+
+`XGeoRTR` is the general platform layer for the current spatial-only MVP. In
+this first wave it intentionally covers only:
+
+- generic precomputed explanation tables
+- one spatial structure
+- one working `rgl` renderer
+- one generic surface layer
+- HTML export for package and poster workflows
