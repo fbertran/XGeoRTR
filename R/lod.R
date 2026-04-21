@@ -26,12 +26,12 @@ build_xgeo_lod <- function(state,
   }
 
   embedding_name <- .or_default(embedding, state$attributes$embeddings$active)
-  point_view <- .xgeo_point_view(state, embedding = embedding_name)
+  point_table <- .xgeo_embedding_point_table(state, embedding = embedding_name)
   level_names <- as.character(sort(unique(as.integer(levels))))
 
   grids <- stats::setNames(
     lapply(as.integer(level_names), function(level) {
-      .density_grid(point_view, bins = level, color_by = color_by)
+      .density_grid(point_table, bins = level, color_by = color_by)
     }),
     level_names
   )

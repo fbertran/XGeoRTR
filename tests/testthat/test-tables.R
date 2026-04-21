@@ -69,6 +69,6 @@ test_that("xgeo_regular_grid validates complete two-dimensional grids", {
     xgeo_regular_grid(
       data.frame(x = c(0, 1, 0), y = c(0, 0, 1), value = c(1, 2, 3))
     ),
-    "complete regular grid"
+    "Regular-grid data"
   )
 })
