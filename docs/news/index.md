@@ -5,9 +5,10 @@
 - Added `INTERFACE_FREEZE.md` and recursive contract tests to lock the
   XGeoRTR/ggWebGL ownership boundary.
 - Added renderer-agnostic table helpers:
-  [`xgeo_explanation_table()`](../reference/xgeo_explanation_table.md),
-  [`xgeo_point_values()`](../reference/xgeo_point_values.md), and
-  [`xgeo_regular_grid()`](../reference/xgeo_regular_grid.md).
+  [`xgeo_explanation_table()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_explanation_table.md),
+  [`xgeo_point_values()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_point_values.md),
+  and
+  [`xgeo_regular_grid()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_regular_grid.md).
 - Centralized selection-aware point/feature filtering for downstream
   packages.
 - Clarified the public interface freeze around `xgeo_state`; use-case
@@ -18,15 +19,18 @@
 
 - Hard architectural break: `xgeo_scene` has been replaced by
   backend-neutral `xgeo_state`.
-- Added [`as_xgeo_state()`](../reference/as_xgeo_state.md),
-  [`write_xgeo_state()`](../reference/write_xgeo_state.md), and
-  [`read_xgeo_state()`](../reference/read_xgeo_state.md).
+- Added
+  [`as_xgeo_state()`](https://fbertran.github.io/XGeoRTR/reference/as_xgeo_state.md),
+  [`write_xgeo_state()`](https://fbertran.github.io/XGeoRTR/reference/write_xgeo_state.md),
+  and
+  [`read_xgeo_state()`](https://fbertran.github.io/XGeoRTR/reference/read_xgeo_state.md).
 - Added backend accessors:
-  [`xgeo_geometry()`](../reference/xgeo_geometry.md),
-  [`xgeo_attributes()`](../reference/xgeo_attributes.md),
-  [`xgeo_indices()`](../reference/xgeo_indices.md),
-  [`xgeo_selection()`](../reference/xgeo_selection.md), and
-  [`xgeo_metadata()`](../reference/xgeo_metadata.md).
+  [`xgeo_geometry()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_geometry.md),
+  [`xgeo_attributes()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_attributes.md),
+  [`xgeo_indices()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_indices.md),
+  [`xgeo_selection()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_selection.md),
+  and
+  [`xgeo_metadata()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_metadata.md).
 - Removed renderer-facing API from XGeoRTR: `render_webgl()`,
   `snapshot_webgl()`, `render_xgeo_layer()`, and all `geom_xgeo_*()`
   constructors.
@@ -45,12 +49,13 @@
 - Expanded `xgeo_scene()` to own embeddings, diagnostics, LOD state,
   views, selection state, and scene metadata.
 - Added
-  [`compute_xgeo_embedding()`](../reference/compute_xgeo_embedding.md),
-  [`compute_xgeo_diagnostics()`](../reference/compute_xgeo_diagnostics.md),
-  [`build_xgeo_lod()`](../reference/build_xgeo_lod.md),
-  [`set_active_embedding()`](../reference/set_active_embedding.md),
-  [`set_xgeo_selection()`](../reference/set_xgeo_selection.md), and
-  [`set_xgeo_lod()`](../reference/set_xgeo_lod.md).
+  [`compute_xgeo_embedding()`](https://fbertran.github.io/XGeoRTR/reference/compute_xgeo_embedding.md),
+  [`compute_xgeo_diagnostics()`](https://fbertran.github.io/XGeoRTR/reference/compute_xgeo_diagnostics.md),
+  [`build_xgeo_lod()`](https://fbertran.github.io/XGeoRTR/reference/build_xgeo_lod.md),
+  [`set_active_embedding()`](https://fbertran.github.io/XGeoRTR/reference/set_active_embedding.md),
+  [`set_xgeo_selection()`](https://fbertran.github.io/XGeoRTR/reference/set_xgeo_selection.md),
+  and
+  [`set_xgeo_lod()`](https://fbertran.github.io/XGeoRTR/reference/set_xgeo_lod.md).
 - Added `geom_xgeo_points()` and `geom_xgeo_density()` alongside the
   existing `geom_xgeo_surface()`.
 - Added JSON scene IO through `write_xgeo_scene()` and

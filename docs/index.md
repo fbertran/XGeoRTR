@@ -2,36 +2,43 @@
 
 ## Frédéric Bertrand
 
-`XGeoRTR` is a backend-neutral explainable geometry/state package for R.
-It owns geometry-aware state, embeddings, diagnostics, multiscale
-summaries, selection state, selected backend tables, and JSON state
-exchange. Rendering is delegated to downstream packages such as
-`ggWebGL`.
+`XGeoRTR` is explainable geometry backend infrastructure for R,
+positioned for SIGGRAPH 2026 workflows that need reusable state rather
+than package-specific presentation code. It owns geometry-aware state,
+embeddings, diagnostics, multiscale summaries, selection state, selected
+backend tables, and JSON state exchange.
+
+Downstream packages such as `shapViz3D`, `rTDA3D`, and renderer
+frontends can consume `xgeo_state` or exported backend tables without
+XGeoRTR taking ownership of their display, interaction, or use-case
+presentation layers.
 
 ## Main features
 
-- Canonical backend object: [`xgeo_state()`](reference/xgeo_state.md)
-- Coercion: [`as_xgeo_state()`](reference/as_xgeo_state.md)
+- Canonical backend object:
+  [`xgeo_state()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_state.md)
+- Coercion:
+  [`as_xgeo_state()`](https://fbertran.github.io/XGeoRTR/reference/as_xgeo_state.md)
 - State operators:
-  - [`compute_xgeo_embedding()`](reference/compute_xgeo_embedding.md)
-  - [`compute_xgeo_diagnostics()`](reference/compute_xgeo_diagnostics.md)
-  - [`build_xgeo_lod()`](reference/build_xgeo_lod.md)
-  - [`set_active_embedding()`](reference/set_active_embedding.md)
-  - [`set_xgeo_selection()`](reference/set_xgeo_selection.md)
-  - [`set_xgeo_lod()`](reference/set_xgeo_lod.md)
+  - [`compute_xgeo_embedding()`](https://fbertran.github.io/XGeoRTR/reference/compute_xgeo_embedding.md)
+  - [`compute_xgeo_diagnostics()`](https://fbertran.github.io/XGeoRTR/reference/compute_xgeo_diagnostics.md)
+  - [`build_xgeo_lod()`](https://fbertran.github.io/XGeoRTR/reference/build_xgeo_lod.md)
+  - [`set_active_embedding()`](https://fbertran.github.io/XGeoRTR/reference/set_active_embedding.md)
+  - [`set_xgeo_selection()`](https://fbertran.github.io/XGeoRTR/reference/set_xgeo_selection.md)
+  - [`set_xgeo_lod()`](https://fbertran.github.io/XGeoRTR/reference/set_xgeo_lod.md)
 - Backend-neutral accessors:
-  - [`xgeo_geometry()`](reference/xgeo_geometry.md)
-  - [`xgeo_attributes()`](reference/xgeo_attributes.md)
-  - [`xgeo_indices()`](reference/xgeo_indices.md)
-  - [`xgeo_selection()`](reference/xgeo_selection.md)
-  - [`xgeo_metadata()`](reference/xgeo_metadata.md)
+  - [`xgeo_geometry()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_geometry.md)
+  - [`xgeo_attributes()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_attributes.md)
+  - [`xgeo_indices()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_indices.md)
+  - [`xgeo_selection()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_selection.md)
+  - [`xgeo_metadata()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_metadata.md)
 - Backend-neutral tables:
-  - [`xgeo_explanation_table()`](reference/xgeo_explanation_table.md)
-  - [`xgeo_point_values()`](reference/xgeo_point_values.md)
-  - [`xgeo_regular_grid()`](reference/xgeo_regular_grid.md)
+  - [`xgeo_explanation_table()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_explanation_table.md)
+  - [`xgeo_point_values()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_point_values.md)
+  - [`xgeo_regular_grid()`](https://fbertran.github.io/XGeoRTR/reference/xgeo_regular_grid.md)
 - Serialization:
-  - [`write_xgeo_state()`](reference/write_xgeo_state.md)
-  - [`read_xgeo_state()`](reference/read_xgeo_state.md)
+  - [`write_xgeo_state()`](https://fbertran.github.io/XGeoRTR/reference/write_xgeo_state.md)
+  - [`read_xgeo_state()`](https://fbertran.github.io/XGeoRTR/reference/read_xgeo_state.md)
 
 ## Installation
 
@@ -62,7 +69,7 @@ state <- as_xgeo_state(
   z_col = "z",
   value_col = "value",
   feature_col = "feature",
-  method = "surface-demo",
+  method = "spatial-field-demo",
   meta = list(source = "synthetic-demo", sample_id = "grid-01")
 )
 
@@ -92,17 +99,35 @@ grid <- xgeo_regular_grid(point_tbl)
 ```
 
 Use-case packages should consume these public tables instead of
-inspecting internal ingestion objects.
+inspecting internal ingestion objects. For example, a Shapley-oriented
+package can consume selected explanation tables, while a
+topology-oriented package can consume point and regular-grid summaries
+as backend inputs.
+
+## Supported poster claims
+
+The package directly supports these backend claims:
+
+- canonical backend state: `xgeo_state`
+- tabular-to-state ingestion: `as_xgeo_state`
+- embedding and diagnostic operators for geometry-aware workflows
+- multiscale LOD summaries with `build_xgeo_lod`
+- selected explanation, point-value, and regular-grid tables
+- backend JSON exchange with `write_xgeo_state` and `read_xgeo_state`
+- downstream-consumer readiness for packages such as `shapViz3D`,
+  `rTDA3D`, and renderer frontends
 
 ## Scope
 
-`XGeoRTR` is upstream of rendering layers. It provides state and
-computation; frontends render that state.
+`XGeoRTR` produces backend state and computation products; downstream
+packages decide how to present or interact with those products.
 
-- XGeoRTR: backend geometry/state semantics and generic selected tables
-- ggWebGL (or another renderer): scene, camera, viewport, drawing
+- XGeoRTR: backend geometry/state semantics, operators, selected tables,
+  and serialization
+- Downstream consumers: Shapley presentation, TDA workflows, renderer
+  adapters, and front-end interaction
 
 The frozen package boundary is documented in `INTERFACE_FREEZE.md`.
 Public `XGeoRTR` objects and serialized payloads must remain free of
-renderer-owned scene, layer, viewport, camera, canvas, theme, shader,
-widget, and export surface fields.
+display-system fields such as scene, layer, viewport, camera, canvas,
+theme, shader, widget, and export surface metadata.

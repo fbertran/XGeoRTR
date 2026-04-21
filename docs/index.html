@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">XGeoRTR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,6 +40,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/fbertran/XGeoRTR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -53,7 +54,8 @@
 <div class="section level2">
 <h2 id="frédéric-bertrand">Frédéric Bertrand<a class="anchor" aria-label="anchor" href="#fr%C3%A9d%C3%A9ric-bertrand"></a>
 </h2>
-<p><code>XGeoRTR</code> is a backend-neutral explainable geometry/state package for R. It owns geometry-aware state, embeddings, diagnostics, multiscale summaries, selection state, selected backend tables, and JSON state exchange. Rendering is delegated to downstream packages such as <code>ggWebGL</code>.</p>
+<p><code>XGeoRTR</code> is explainable geometry backend infrastructure for R, positioned for SIGGRAPH 2026 workflows that need reusable state rather than package-specific presentation code. It owns geometry-aware state, embeddings, diagnostics, multiscale summaries, selection state, selected backend tables, and JSON state exchange.</p>
+<p>Downstream packages such as <code>shapViz3D</code>, <code>rTDA3D</code>, and renderer frontends can consume <code>xgeo_state</code> or exported backend tables without XGeoRTR taking ownership of their display, interaction, or use-case presentation layers.</p>
 </div>
 <div class="section level2">
 <h2 id="main-features">Main features<a class="anchor" aria-label="anchor" href="#main-features"></a>
@@ -116,7 +118,7 @@
 <h2 id="build-backend-state">Build backend state<a class="anchor" aria-label="anchor" href="#build-backend-state"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">XGeoRTR</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://fbertran.github.io/XGeoRTR/">XGeoRTR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">demo_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"spatial_demo.csv"</span>, package <span class="op">=</span> <span class="st">"XGeoRTR"</span><span class="op">)</span></span>
 <span><span class="va">demo_tbl</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">demo_path</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -128,7 +130,7 @@
 <span>  z_col <span class="op">=</span> <span class="st">"z"</span>,</span>
 <span>  value_col <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  feature_col <span class="op">=</span> <span class="st">"feature"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"surface-demo"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"spatial-field-demo"</span>,</span>
 <span>  meta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"synthetic-demo"</span>, sample_id <span class="op">=</span> <span class="st">"grid-01"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -155,20 +157,46 @@
 <code class="sourceCode R"><span><span class="va">long_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_explanation_table.html">xgeo_explanation_table</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
 <span><span class="va">point_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_point_values.html">xgeo_point_values</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
 <span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_regular_grid.html">xgeo_regular_grid</a></span><span class="op">(</span><span class="va">point_tbl</span><span class="op">)</span></span></code></pre></div>
-<p>Use-case packages should consume these public tables instead of inspecting internal ingestion objects.</p>
+<p>Use-case packages should consume these public tables instead of inspecting internal ingestion objects. For example, a Shapley-oriented package can consume selected explanation tables, while a topology-oriented package can consume point and regular-grid summaries as backend inputs.</p>
+</div>
+<div class="section level2">
+<h2 id="supported-poster-claims">Supported poster claims<a class="anchor" aria-label="anchor" href="#supported-poster-claims"></a>
+</h2>
+<p>The package directly supports these backend claims:</p>
+<ul>
+<li>canonical backend state: <code>xgeo_state</code>
+</li>
+<li>tabular-to-state ingestion: <code>as_xgeo_state</code>
+</li>
+<li>embedding and diagnostic operators for geometry-aware workflows</li>
+<li>multiscale LOD summaries with <code>build_xgeo_lod</code>
+</li>
+<li>selected explanation, point-value, and regular-grid tables</li>
+<li>backend JSON exchange with <code>write_xgeo_state</code> and <code>read_xgeo_state</code>
+</li>
+<li>downstream-consumer readiness for packages such as <code>shapViz3D</code>, <code>rTDA3D</code>, and renderer frontends</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="scope">Scope<a class="anchor" aria-label="anchor" href="#scope"></a>
 </h2>
-<p><code>XGeoRTR</code> is upstream of rendering layers. It provides state and computation; frontends render that state.</p>
+<p><code>XGeoRTR</code> produces backend state and computation products; downstream packages decide how to present or interact with those products.</p>
 <ul>
-<li>XGeoRTR: backend geometry/state semantics and generic selected tables</li>
-<li>ggWebGL (or another renderer): scene, camera, viewport, drawing</li>
+<li>XGeoRTR: backend geometry/state semantics, operators, selected tables, and serialization</li>
+<li>Downstream consumers: Shapley presentation, TDA workflows, renderer adapters, and front-end interaction</li>
 </ul>
-<p>The frozen package boundary is documented in <code>INTERFACE_FREEZE.md</code>. Public <code>XGeoRTR</code> objects and serialized payloads must remain free of renderer-owned scene, layer, viewport, camera, canvas, theme, shader, widget, and export surface fields.</p>
+<p>The frozen package boundary is documented in <code>INTERFACE_FREEZE.md</code>. Public <code>XGeoRTR</code> objects and serialized payloads must remain free of display-system fields such as scene, layer, viewport, camera, canvas, theme, shader, widget, and export surface metadata.</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/fbertran/XGeoRTR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/fbertran/XGeoRTR/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>

@@ -4,6 +4,8 @@ lang: en
 news:
   one_page: true
 
+url: https://fbertran.github.io/XGeoRTR
+
 template:
   bootstrap: 5
   bslib:

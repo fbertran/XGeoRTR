@@ -7,6 +7,9 @@
 
 ## Citation
 
+Source:
+[`inst/CITATION`](https://github.com/fbertran/XGeoRTR/blob/HEAD/inst/CITATION)
+
 Bertrand F (2026). *XGeoRTR: Backend-Neutral Explainable Geometry State
 and Operators*. R package version 0.4.0.
 

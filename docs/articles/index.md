@@ -2,4 +2,5 @@
 
 ### Basics
 
-- [Getting Started with XGeoRTR](getting-started.md):
+- [Getting Started with
+  XGeoRTR](https://fbertran.github.io/XGeoRTR/articles/getting-started.md):

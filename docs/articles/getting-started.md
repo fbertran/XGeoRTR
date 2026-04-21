@@ -1,7 +1,8 @@
 # Getting Started with XGeoRTR
 
-`XGeoRTR` is a backend-neutral explainable geometry/state package. It
-standardizes analytic outputs into `xgeo_state` objects with:
+`XGeoRTR` is explainable geometry backend infrastructure for workflows
+that need portable analytic state. It standardizes analytic outputs into
+`xgeo_state` objects with:
 
 - geometry
 - attributes
@@ -11,7 +12,9 @@ standardizes analytic outputs into `xgeo_state` objects with:
 - selected backend tables
 - metadata
 
-Rendering is delegated to downstream frontends such as `ggWebGL`.
+Packages such as `shapViz3D`, `rTDA3D`, and renderer frontends consume
+this backend state downstream. XGeoRTR does not include use-case
+presentation code or front-end adapters.
 
 ## Create an `xgeo_state`
 
@@ -28,14 +31,14 @@ state <- as_xgeo_state(
   z_col = "z",
   value_col = "value",
   feature_col = "feature",
-  method = "surface-demo",
+  method = "spatial-field-demo",
   meta = list(source = "synthetic-demo", sample_id = "grid-01")
 )
 
 state
 #> <xgeo_state>
 #>   structure:    spatial
-#>   method:       surface-demo
+#>   method:       spatial-field-demo
 #>   points:       16
 #>   features:     16
 #>   embeddings:   1 (active: spatial)
@@ -44,7 +47,7 @@ state
 summary(state)
 #> <summary.xgeo_state>
 #>   structure:      spatial
-#>   method:         surface-demo
+#>   method:         spatial-field-demo
 #>   points:         16
 #>   features:       16
 #>   explanations:   16
@@ -67,7 +70,7 @@ state <- set_xgeo_selection(state, point_ids = state$indices$point_ids[[1]])
 summary(state)
 #> <summary.xgeo_state>
 #>   structure:      spatial
-#>   method:         surface-demo
+#>   method:         spatial-field-demo
 #>   points:         16
 #>   features:       16
 #>   explanations:   16
@@ -118,6 +121,14 @@ names(grid)
 Downstream use-case packages should consume these public tables rather
 than internal ingestion objects.
 
+## Downstream consumers
+
+`shapViz3D` can consume explanation and point-value tables for
+Shapley-oriented workflows. `rTDA3D` can consume point and grid
+summaries for topology-oriented workflows. Renderer frontends can
+consume `xgeo_state` through their own adapter contracts. Those packages
+own presentation, interaction, and front-end behavior.
+
 ## Write and reload state
 
 ``` r
@@ -129,7 +140,8 @@ restored$attributes$embeddings$active
 #> [1] "pca_points"
 ```
 
-## Boundary with rendering
+## Package boundary
 
-`XGeoRTR` does not expose scene/camera/viewport APIs. Renderer-specific
-orchestration belongs in downstream rendering packages.
+`XGeoRTR` exposes backend state, derived tables, and serialized state
+exchange. It does not expose scene/camera/viewport APIs or
+renderer-specific orchestration.

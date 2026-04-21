@@ -44,11 +44,11 @@ state <- as_xgeo_state(
   z_col = "z",
   value_col = "value",
   feature_col = "feature",
-  method = "surface-demo",
+  method = "spatial-field-demo",
   meta = list(source = "synthetic-demo", sample_id = "grid-01")
 )
 
-cat("== XGeoRTR backend-state demo ==\n")
+cat("== XGeoRTR spatial field backend-state demo ==\n")
 print(summary(state))
 
 state <- compute_xgeo_embedding(state, method = "pca", source = "points", dims = 2)
@@ -67,7 +67,7 @@ state <- build_xgeo_lod(
 )
 state <- set_xgeo_selection(state, point_ids = state$indices$point_ids[[1]])
 
-cat("\nComputed embeddings, diagnostics, LOD, and selection.\n")
+cat("\nComputed backend embeddings, diagnostics, LOD, and selection.\n")
 
 json_file <- file.path(tempdir(), "xgeort-demo-state.json")
 write_xgeo_state(state, json_file)

@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">XGeoRTR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/fbertran/XGeoRTR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -54,15 +55,15 @@
       <h1>Getting Started with XGeoRTR</h1>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/fbertran/XGeoRTR/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
     
     
-<p><code>XGeoRTR</code> is a backend-neutral explainable geometry/state
-package. It standardizes analytic outputs into <code>xgeo_state</code>
-objects with:</p>
+<p><code>XGeoRTR</code> is explainable geometry backend infrastructure
+for workflows that need portable analytic state. It standardizes
+analytic outputs into <code>xgeo_state</code> objects with:</p>
 <ul>
 <li>geometry</li>
 <li>attributes</li>
@@ -72,13 +73,14 @@ objects with:</p>
 <li>selected backend tables</li>
 <li>metadata</li>
 </ul>
-<p>Rendering is delegated to downstream frontends such as
-<code>ggWebGL</code>.</p>
+<p>Packages such as <code>shapViz3D</code>, <code>rTDA3D</code>, and
+renderer frontends consume this backend state downstream. XGeoRTR does
+not include use-case presentation code or front-end adapters.</p>
 <div class="section level2">
 <h2 id="create-an-xgeo_state">Create an <code>xgeo_state</code><a class="anchor" aria-label="anchor" href="#create-an-xgeo_state"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">XGeoRTR</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://fbertran.github.io/XGeoRTR/">XGeoRTR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">demo_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"spatial_demo.csv"</span>, package <span class="op">=</span> <span class="st">"XGeoRTR"</span><span class="op">)</span></span>
 <span><span class="va">demo_tbl</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">demo_path</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -90,14 +92,14 @@ objects with:</p>
 <span>  z_col <span class="op">=</span> <span class="st">"z"</span>,</span>
 <span>  value_col <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  feature_col <span class="op">=</span> <span class="st">"feature"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"surface-demo"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"spatial-field-demo"</span>,</span>
 <span>  meta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"synthetic-demo"</span>, sample_id <span class="op">=</span> <span class="st">"grid-01"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">state</span></span>
 <span><span class="co">#&gt; &lt;xgeo_state&gt;</span></span>
 <span><span class="co">#&gt;   structure:    spatial</span></span>
-<span><span class="co">#&gt;   method:       surface-demo</span></span>
+<span><span class="co">#&gt;   method:       spatial-field-demo</span></span>
 <span><span class="co">#&gt;   points:       16</span></span>
 <span><span class="co">#&gt;   features:     16</span></span>
 <span><span class="co">#&gt;   embeddings:   1 (active: spatial)</span></span>
@@ -106,7 +108,7 @@ objects with:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;summary.xgeo_state&gt;</span></span>
 <span><span class="co">#&gt;   structure:      spatial</span></span>
-<span><span class="co">#&gt;   method:         surface-demo</span></span>
+<span><span class="co">#&gt;   method:         spatial-field-demo</span></span>
 <span><span class="co">#&gt;   points:         16</span></span>
 <span><span class="co">#&gt;   features:       16</span></span>
 <span><span class="co">#&gt;   explanations:   16</span></span>
@@ -129,7 +131,7 @@ objects with:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;summary.xgeo_state&gt;</span></span>
 <span><span class="co">#&gt;   structure:      spatial</span></span>
-<span><span class="co">#&gt;   method:         surface-demo</span></span>
+<span><span class="co">#&gt;   method:         spatial-field-demo</span></span>
 <span><span class="co">#&gt;   points:         16</span></span>
 <span><span class="co">#&gt;   features:       16</span></span>
 <span><span class="co">#&gt;   explanations:   16</span></span>
@@ -179,6 +181,16 @@ objects with:</p>
 rather than internal ingestion objects.</p>
 </div>
 <div class="section level2">
+<h2 id="downstream-consumers">Downstream consumers<a class="anchor" aria-label="anchor" href="#downstream-consumers"></a>
+</h2>
+<p><code>shapViz3D</code> can consume explanation and point-value tables
+for Shapley-oriented workflows. <code>rTDA3D</code> can consume point
+and grid summaries for topology-oriented workflows. Renderer frontends
+can consume <code>xgeo_state</code> through their own adapter contracts.
+Those packages own presentation, interaction, and front-end
+behavior.</p>
+</div>
+<div class="section level2">
 <h2 id="write-and-reload-state">Write and reload state<a class="anchor" aria-label="anchor" href="#write-and-reload-state"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -190,11 +202,11 @@ rather than internal ingestion objects.</p>
 <span><span class="co">#&gt; [1] "pca_points"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="boundary-with-rendering">Boundary with rendering<a class="anchor" aria-label="anchor" href="#boundary-with-rendering"></a>
+<h2 id="package-boundary">Package boundary<a class="anchor" aria-label="anchor" href="#package-boundary"></a>
 </h2>
-<p><code>XGeoRTR</code> does not expose scene/camera/viewport APIs.
-Renderer-specific orchestration belongs in downstream rendering
-packages.</p>
+<p><code>XGeoRTR</code> exposes backend state, derived tables, and
+serialized state exchange. It does not expose scene/camera/viewport APIs
+or renderer-specific orchestration.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

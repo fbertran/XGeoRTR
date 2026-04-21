@@ -7,10 +7,15 @@ output: github_document
 # XGeoRTR
 ## Frédéric Bertrand
 
-`XGeoRTR` is a backend-neutral explainable geometry/state package for R.
-It owns geometry-aware state, embeddings, diagnostics, multiscale summaries,
-selection state, selected backend tables, and JSON state exchange. Rendering
-is delegated to downstream packages such as `ggWebGL`.
+`XGeoRTR` is explainable geometry backend infrastructure for R, positioned for
+SIGGRAPH 2026 workflows that need reusable state rather than package-specific
+presentation code. It owns geometry-aware state, embeddings, diagnostics,
+multiscale summaries, selection state, selected backend tables, and JSON state
+exchange.
+
+Downstream packages such as `shapViz3D`, `rTDA3D`, and renderer frontends can
+consume `xgeo_state` or exported backend tables without XGeoRTR taking ownership
+of their display, interaction, or use-case presentation layers.
 
 ## Main features
 
@@ -67,7 +72,7 @@ state <- as_xgeo_state(
   z_col = "z",
   value_col = "value",
   feature_col = "feature",
-  method = "surface-demo",
+  method = "spatial-field-demo",
   meta = list(source = "synthetic-demo", sample_id = "grid-01")
 )
 
@@ -99,17 +104,34 @@ grid <- xgeo_regular_grid(point_tbl)
 ```
 
 Use-case packages should consume these public tables instead of inspecting
-internal ingestion objects.
+internal ingestion objects. For example, a Shapley-oriented package can consume
+selected explanation tables, while a topology-oriented package can consume point
+and regular-grid summaries as backend inputs.
+
+## Supported poster claims
+
+The package directly supports these backend claims:
+
+- canonical backend state: `xgeo_state`
+- tabular-to-state ingestion: `as_xgeo_state`
+- embedding and diagnostic operators for geometry-aware workflows
+- multiscale LOD summaries with `build_xgeo_lod`
+- selected explanation, point-value, and regular-grid tables
+- backend JSON exchange with `write_xgeo_state` and `read_xgeo_state`
+- downstream-consumer readiness for packages such as `shapViz3D`, `rTDA3D`,
+  and renderer frontends
 
 ## Scope
 
-`XGeoRTR` is upstream of rendering layers. It provides state and computation;
-frontends render that state.
+`XGeoRTR` produces backend state and computation products; downstream packages
+decide how to present or interact with those products.
 
-- XGeoRTR: backend geometry/state semantics and generic selected tables
-- ggWebGL (or another renderer): scene, camera, viewport, drawing
+- XGeoRTR: backend geometry/state semantics, operators, selected tables, and
+  serialization
+- Downstream consumers: Shapley presentation, TDA workflows, renderer adapters,
+  and front-end interaction
 
 The frozen package boundary is documented in `INTERFACE_FREEZE.md`. Public
-`XGeoRTR` objects and serialized payloads must remain free of renderer-owned
-scene, layer, viewport, camera, canvas, theme, shader, widget, and export
-surface fields.
+`XGeoRTR` objects and serialized payloads must remain free of display-system
+fields such as scene, layer, viewport, camera, canvas, theme, shader, widget,
+and export surface metadata.

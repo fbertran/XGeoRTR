@@ -32,3 +32,5 @@ Suggests:
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/Needs/website: pkgdown
+URL: https://fbertran.github.io/XGeoRTR/, https://github.com/fbertran/XGeoRTR
+BugReports: https://github.com/fbertran/XGeoRTR/issues
