@@ -1,16 +1,15 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # XGeoRTR
+
 ## Frédéric Bertrand
 
 `XGeoRTR` is a backend-neutral explainable geometry/state package for R.
-It owns geometry-aware state, embeddings, diagnostics, multiscale summaries,
-selection state, and JSON state exchange. Rendering is delegated to downstream
-packages such as `ggWebGL`.
+It owns geometry-aware state, embeddings, diagnostics, multiscale
+summaries, selection state, selected backend tables, and JSON state
+exchange. Rendering is delegated to downstream packages such as
+`ggWebGL`.
 
 ## Main features
 
@@ -29,6 +28,10 @@ packages such as `ggWebGL`.
   - `xgeo_indices()`
   - `xgeo_selection()`
   - `xgeo_metadata()`
+- Backend-neutral tables:
+  - `xgeo_explanation_table()`
+  - `xgeo_point_values()`
+  - `xgeo_regular_grid()`
 - Serialization:
   - `write_xgeo_state()`
   - `read_xgeo_state()`
@@ -37,7 +40,7 @@ packages such as `ggWebGL`.
 
 For local development from checked-out repositories:
 
-```r
+``` r
 install.packages(c("cli", "jsonlite"))
 devtools::load_all(".")
 ```
@@ -49,7 +52,7 @@ Optional packages:
 
 ## Build backend state
 
-```r
+``` r
 library(XGeoRTR)
 
 demo_path <- system.file("extdata", "spatial_demo.csv", package = "XGeoRTR")
@@ -77,16 +80,32 @@ summary(state)
 
 ## Write and reload state
 
-```r
+``` r
 out_json <- tempfile(fileext = ".json")
 write_xgeo_state(state, out_json)
 restored_state <- read_xgeo_state(out_json)
 ```
 
+## Build downstream tables
+
+``` r
+long_tbl <- xgeo_explanation_table(state)
+point_tbl <- xgeo_point_values(state)
+grid <- xgeo_regular_grid(point_tbl)
+```
+
+Use-case packages should consume these public tables instead of
+inspecting internal ingestion objects.
+
 ## Scope
 
-`XGeoRTR` is upstream of rendering layers. It provides state and computation;
-frontends render that state.
+`XGeoRTR` is upstream of rendering layers. It provides state and
+computation; frontends render that state.
 
-- XGeoRTR: backend geometry/state semantics
+- XGeoRTR: backend geometry/state semantics and generic selected tables
 - ggWebGL (or another renderer): scene, camera, viewport, drawing
+
+The frozen package boundary is documented in `INTERFACE_FREEZE.md`.
+Public `XGeoRTR` objects and serialized payloads must remain free of
+renderer-owned scene, layer, viewport, camera, canvas, theme, shader,
+widget, and export surface fields.

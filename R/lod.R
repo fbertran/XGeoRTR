@@ -29,7 +29,7 @@ build_xgeo_lod <- function(state,
   point_view <- .xgeo_point_view(state, embedding = embedding_name)
   level_names <- as.character(sort(unique(as.integer(levels))))
 
-  grids <- setNames(
+  grids <- stats::setNames(
     lapply(as.integer(level_names), function(level) {
       .density_grid(point_view, bins = level, color_by = color_by)
     }),
@@ -42,7 +42,7 @@ build_xgeo_lod <- function(state,
     embedding = embedding_name,
     strategy = "density_grid",
     color_by = color_by,
-    default_level = tail(level_names, 1),
+    default_level = utils::tail(level_names, 1),
     levels = grids,
     auto_threshold = auto_threshold
   )
@@ -50,7 +50,7 @@ build_xgeo_lod <- function(state,
   if (is.null(state$lod$active$name)) {
     state$lod$active <- list(
       name = name,
-      level = tail(level_names, 1)
+      level = utils::tail(level_names, 1)
     )
   }
 

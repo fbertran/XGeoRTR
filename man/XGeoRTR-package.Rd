@@ -8,8 +8,11 @@
 \description{
 Backend-level tools for standardizing explanation geometries into
 backend-neutral \code{xgeo_state} objects with embeddings, diagnostics,
-selection state, and multiscale level-of-detail summaries.
+selection state, multiscale level-of-detail summaries, and selected
+long-table views for downstream use-case packages.
 Rendering is delegated to downstream frontends such as ggWebGL.
+The frozen XGeoRTR/ggWebGL boundary is documented in
+\code{INTERFACE_FREEZE.md}.
 }
 \author{
 \strong{Maintainer}: Frederic Bertrand \email{frederic.bertrand@lecnam.net} (\href{https://orcid.org/0000-0002-0837-8281}{ORCID})

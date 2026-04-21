@@ -339,6 +339,36 @@
   merge(x, y, by = by, all.x = TRUE, sort = FALSE)
 }
 
+.validate_selected_flag <- function(selected) {
+  if (!.is_scalar_flag(selected)) {
+    cli::cli_abort("{.arg selected} must be `TRUE` or `FALSE`.")
+  }
+
+  invisible(selected)
+}
+
+.rename_metadata_conflicts <- function(base_names, metadata, by, suffix) {
+  if (is.null(metadata) || nrow(metadata) == 0L) {
+    return(metadata)
+  }
+
+  rename <- intersect(setdiff(names(metadata), by), base_names)
+  if (length(rename) > 0L) {
+    names(metadata)[match(rename, names(metadata))] <- paste0(rename, suffix)
+  }
+
+  metadata
+}
+
+.merge_xgeo_metadata <- function(x, metadata, by, suffix) {
+  if (is.null(metadata) || nrow(metadata) == 0L) {
+    return(x)
+  }
+
+  metadata <- .rename_metadata_conflicts(names(x), metadata, by = by, suffix = suffix)
+  merge(x, metadata, by = by, all.x = TRUE, sort = FALSE)
+}
+
 .xgeo_state_data <- function(state) {
   list(
     points = state$geometry$points,
@@ -348,6 +378,47 @@
     predictions = state$attributes$predictions,
     uncertainty = state$attributes$uncertainty
   )
+}
+
+.filter_point_level_table <- function(x, point_ids) {
+  if (nrow(x) == 0L || length(point_ids) == 0L) {
+    return(x[0L, , drop = FALSE])
+  }
+
+  x[x$point_id %in% point_ids, , drop = FALSE]
+}
+
+.selected_xgeo_state_data <- function(state, selected = TRUE) {
+  data <- .xgeo_state_data(state)
+  if (!selected) {
+    return(data)
+  }
+
+  selection <- state$selection
+  point_ids <- if (length(selection$point_ids) > 0L) {
+    selection$point_ids
+  } else {
+    data$points$point_id
+  }
+  features <- if (length(selection$features) > 0L) {
+    selection$features
+  } else {
+    data$feature_meta$feature
+  }
+
+  data$points <- data$points[data$points$point_id %in% point_ids, , drop = FALSE]
+  data$explanations <- data$explanations[
+    data$explanations$point_id %in% point_ids &
+      data$explanations$feature %in% features,
+    ,
+    drop = FALSE
+  ]
+  data$point_meta <- .filter_point_level_table(data$point_meta, point_ids)
+  data$predictions <- .filter_point_level_table(data$predictions, point_ids)
+  data$uncertainty <- .filter_point_level_table(data$uncertainty, point_ids)
+  data$feature_meta <- data$feature_meta[data$feature_meta$feature %in% features, , drop = FALSE]
+
+  data
 }
 
 .xgeo_point_view <- function(state, embedding = NULL) {
@@ -668,8 +739,8 @@
   stats[is.na(stats)] <- 0
 
   list(
-    x = head(x_breaks, -1),
-    y = head(y_breaks, -1),
+    x = utils::head(x_breaks, -1),
+    y = utils::head(y_breaks, -1),
     z = stats,
     counts = counts,
     color_by = color_by

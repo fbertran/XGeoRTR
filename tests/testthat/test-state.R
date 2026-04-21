@@ -8,7 +8,10 @@ test_that("xgeo_state stores backend-only canonical fields", {
   )
   expect_true(all(c("points") %in% names(state$geometry)))
   expect_true(all(c("point_ids", "feature_ids") %in% names(state$indices)))
-  expect_false(any(c("layers", "views", "camera", "viewport", "theme", "render_backend") %in% names(state)))
+  expect_false(any(c(
+    "layers", "views", "camera", "viewport", "theme", "render_backend",
+    "shader", "widget", "snapshot", "export", "render"
+  ) %in% names(state)))
 })
 
 test_that("compute_xgeo_embedding adds PCA and optional UMAP embeddings", {
@@ -54,6 +57,23 @@ test_that("state JSON round-trips embeddings, diagnostics, lod, and selection", 
   expect_equal(restored$selection$point_ids, state$indices$point_ids[[1]])
   expect_equal(names(restored$lod$items), names(state$lod$items))
   expect_equal(names(restored$attributes$diagnostics$items), names(state$attributes$diagnostics$items))
+})
+
+test_that("state JSON payload is backend-only and rooted at `state`", {
+  state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+  out_file <- tempfile(fileext = ".json")
+  write_xgeo_state(state, out_file)
+
+  payload <- jsonlite::fromJSON(out_file, simplifyDataFrame = FALSE)
+  expect_true("state" %in% names(payload))
+  expect_false("scene" %in% names(payload))
+
+  state_names <- names(payload$state)
+  expect_true(all(c("geometry", "attributes", "indices", "selection", "lod", "metadata") %in% state_names))
+  expect_false(any(c(
+    "scene", "camera", "viewport", "layers", "theme", "render_backend",
+    "shader", "widget", "snapshot", "export", "render"
+  ) %in% state_names))
 })
 
 test_that("validate_xgeo_state rejects renderer-only fields", {

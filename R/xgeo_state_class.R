@@ -103,7 +103,10 @@ validate_xgeo_state <- function(x) {
   }
 
   forbidden <- intersect(
-    c("scene", "layers", "views", "camera", "viewport", "canvas", "theme", "render_backend"),
+    c(
+      "scene", "layers", "views", "camera", "viewport", "canvas", "theme",
+      "render_backend", "shader", "widget", "snapshot", "export", "render"
+    ),
     names(x)
   )
   if (length(forbidden) > 0L) {

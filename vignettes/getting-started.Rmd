@@ -22,6 +22,7 @@ It standardizes analytic outputs into `xgeo_state` objects with:
 - indices
 - selection
 - level-of-detail summaries
+- selected backend tables
 - metadata
 
 Rendering is delegated to downstream frontends such as `ggWebGL`.
@@ -70,6 +71,21 @@ names(xgeo_indices(state))
 xgeo_selection(state)
 names(xgeo_metadata(state))
 ```
+
+## Build selected backend tables
+
+```{r}
+long_tbl <- xgeo_explanation_table(state)
+point_tbl <- xgeo_point_values(state)
+grid <- xgeo_regular_grid(point_tbl)
+
+utils::head(long_tbl)
+utils::head(point_tbl)
+names(grid)
+```
+
+Downstream use-case packages should consume these public tables rather than
+internal ingestion objects.
 
 ## Write and reload state
 

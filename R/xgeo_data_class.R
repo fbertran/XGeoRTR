@@ -106,7 +106,10 @@ validate_xgeo_data <- function(x) {
   }
 
   renderer_fields <- intersect(
-    c("layers", "views", "camera", "theme", "render_backend"),
+    c(
+      "layers", "views", "camera", "viewport", "theme", "render_backend",
+      "shader", "widget", "snapshot", "export", "render"
+    ),
     names(x)
   )
   if (length(renderer_fields) > 0L) {
