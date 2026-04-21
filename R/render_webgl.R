@@ -107,6 +107,170 @@
   )
 }
 
+.open_rgl_device <- function(open) {
+  if (isTRUE(open)) {
+    rgl::open3d()
+  } else {
+    rgl::open3d(useNULL = TRUE)
+  }
+}
+
+.draw_scene <- function(scene, lod_level = NULL, open = interactive()) {
+  .validate_xgeo_scene(scene)
+
+  if (!requireNamespace("rgl", quietly = TRUE)) {
+    cli::cli_abort(
+      "Package {.pkg rgl} is required for WebGL rendering."
+    )
+  }
+
+  .open_rgl_device(open)
+  rgl::clear3d(type = "all")
+  rgl::bg3d(color = .or_default(scene$theme$background, "white"))
+
+  for (layer in scene$layers) {
+    render_layer <- .resolve_render_layer(scene, layer, lod_level = lod_level)
+    render_xgeo_layer(render_layer, scene = scene)
+  }
+
+  .apply_camera(scene$camera)
+
+  invisible(scene)
+}
+
+.build_rgl_widget <- function() {
+  rgl::rglwidget()
+}
+
+.save_widget_html <- function(file, selfcontained = FALSE) {
+  if (!requireNamespace("htmlwidgets", quietly = TRUE)) {
+    return(NULL)
+  }
+
+  dir.create(dirname(file), recursive = TRUE, showWarnings = FALSE)
+  widget <- .build_rgl_widget()
+  htmlwidgets::saveWidget(widget, file = file, selfcontained = selfcontained)
+  normalizePath(file, winslash = "/", mustWork = FALSE)
+}
+
+.save_legacy_webgl <- function(file) {
+  if (!exists("writeWebGL", where = asNamespace("rgl"), inherits = FALSE)) {
+    return(NULL)
+  }
+
+  result <- tryCatch(
+    rgl::writeWebGL(
+      dir = { dir.create(dirname(file), recursive = TRUE, showWarnings = FALSE); dirname(file) },
+      filename = file,
+      snapshot = FALSE
+    ),
+    error = function(e) e
+  )
+
+  if (inherits(result, "error")) {
+    if (grepl("defunct", conditionMessage(result), ignore.case = TRUE)) {
+      return(NULL)
+    }
+
+    cli::cli_warn(
+      "Legacy {.fn rgl::writeWebGL} export failed: {conditionMessage(result)}"
+    )
+    return(NULL)
+  }
+
+  if (file.exists(file)) {
+    return(normalizePath(file, winslash = "/", mustWork = FALSE))
+  }
+
+  NULL
+}
+
+.save_webgl_html <- function(file, selfcontained = FALSE) {
+  html_path <- .save_widget_html(file, selfcontained = selfcontained)
+  if (!is.null(html_path)) {
+    return(html_path)
+  }
+
+  html_path <- .save_legacy_webgl(file)
+  if (!is.null(html_path)) {
+    return(html_path)
+  }
+
+  NULL
+}
+
+.try_snapshot3d <- function(file,
+                            webshot = FALSE,
+                            width = NULL,
+                            height = NULL) {
+  warning_message <- NULL
+  error_message <- NULL
+
+  withCallingHandlers(
+    tryCatch(
+      rgl::snapshot3d(
+        filename = file,
+        webshot = webshot,
+        width = width,
+        height = height
+      ),
+      error = function(e) {
+        error_message <<- conditionMessage(e)
+        NULL
+      }
+    ),
+    warning = function(w) {
+      warning_message <<- conditionMessage(w)
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  if (file.exists(file)) {
+    return(list(
+      path = normalizePath(file, winslash = "/", mustWork = TRUE),
+      message = warning_message
+    ))
+  }
+
+  if (!is.null(error_message)) {
+    return(list(path = NULL, message = error_message))
+  }
+
+  list(path = NULL, message = warning_message)
+}
+
+.write_placeholder_snapshot <- function(file, html_file = NULL) {
+  grDevices::png(filename = file, width = 1200, height = 800)
+  on.exit(grDevices::dev.off(), add = TRUE)
+
+  graphics::par(mar = c(1, 1, 1, 1))
+  graphics::plot.new()
+  graphics::rect(0, 0, 1, 1, col = "white", border = NA)
+  graphics::text(
+    0.5, 0.62,
+    labels = "Static snapshot unavailable in this rgl build.",
+    cex = 1.5,
+    font = 2
+  )
+  subtitle <- if (is.null(html_file)) {
+    "Interactive WebGL export was not created."
+  } else {
+    paste("Interactive WebGL export written to", basename(html_file))
+  }
+  graphics::text(
+    0.5, 0.46,
+    labels = subtitle,
+    cex = 1.1
+  )
+  graphics::text(
+    0.5, 0.34,
+    labels = "Use the HTML artifact for interactive review.",
+    cex = 1
+  )
+
+  normalizePath(file, winslash = "/", mustWork = FALSE)
+}
+
 .apply_camera <- function(camera) {
   preset <- .or_default(camera$preset, "isometric")
 
@@ -213,47 +377,103 @@ render_webgl <- function(scene,
                          file = NULL,
                          selfcontained = FALSE,
                          open = interactive()) {
-  .validate_xgeo_scene(scene)
-
-  if (!requireNamespace("rgl", quietly = TRUE)) {
-    cli::cli_abort(
-      "Package {.pkg rgl} is required for {.fn render_webgl}."
-    )
-  }
-
-  if (isTRUE(open)) {
-    rgl::open3d()
-  } else {
-    rgl::open3d(useNULL = TRUE)
-  }
-
-  rgl::clear3d(type = "all")
-  rgl::bg3d(color = .or_default(scene$theme$background, "white"))
-
-  for (layer in scene$layers) {
-    render_layer <- .resolve_render_layer(scene, layer, lod_level = lod_level)
-    render_xgeo_layer(render_layer, scene = scene)
-  }
-
-  .apply_camera(scene$camera)
+  .draw_scene(scene, lod_level = lod_level, open = open)
 
   if (is.null(file)) {
     if (requireNamespace("htmlwidgets", quietly = TRUE)) {
-      return(rgl::rglwidget())
+      return(.build_rgl_widget())
     }
 
     return(invisible(scene))
   }
 
-  if (!requireNamespace("htmlwidgets", quietly = TRUE)) {
-    cli::cli_warn(
-      "Package {.pkg htmlwidgets} is required to save HTML output; returning the rendered scene instead."
-    )
-    return(invisible(scene))
+  html_path <- .save_webgl_html(file, selfcontained = selfcontained)
+  if (!is.null(html_path)) {
+    return(invisible(html_path))
   }
 
-  widget <- rgl::rglwidget()
-  htmlwidgets::saveWidget(widget, file = file, selfcontained = selfcontained)
+  cli::cli_warn(
+    paste(
+      "No supported HTML export path is available.",
+      "Install {.pkg htmlwidgets} for {.fn rgl::rglwidget} export;",
+      "legacy {.fn rgl::writeWebGL} is unavailable in this {.pkg rgl} build."
+    )
+  )
 
-  invisible(normalizePath(file, winslash = "/", mustWork = FALSE))
+  invisible(scene)
+}
+
+#' Save a static snapshot of an `xgeo_scene` when available
+#'
+#' @param scene An `xgeo_scene` object.
+#' @param file Output PNG path.
+#' @param lod_level Optional LOD selector passed to `render_webgl()`.
+#' @param open Whether to open a visible device.
+#' @param webshot Whether to allow `snapshot3d()` to use a webshot-based path.
+#' @param selfcontained Passed to the HTML fallback export when used.
+#' @param html_fallback Whether to also export an interactive HTML scene next to
+#'   the PNG when static snapshots are unavailable.
+#' @param placeholder Whether to create a placeholder PNG when no static
+#'   snapshot backend is available.
+#' @param width Optional snapshot width.
+#' @param height Optional snapshot height.
+#'
+#' @return The normalized PNG path, invisibly.
+#' @export
+snapshot_webgl <- function(scene,
+                           file,
+                           lod_level = NULL,
+                           open = FALSE,
+                           webshot = FALSE,
+                           selfcontained = FALSE,
+                           html_fallback = TRUE,
+                           placeholder = TRUE,
+                           width = NULL,
+                           height = NULL) {
+  if (!.is_scalar_string(file)) {
+    cli::cli_abort("{.arg file} must be a single file path.")
+  }
+
+  .draw_scene(scene, lod_level = lod_level, open = open)
+
+  html_path <- NULL
+  if (isTRUE(html_fallback)) {
+    html_file <- paste0(tools::file_path_sans_ext(file), ".html")
+    html_path <- .save_webgl_html(html_file, selfcontained = selfcontained)
+  }
+
+  snapshot_result <- .try_snapshot3d(
+    file = file,
+    webshot = webshot,
+    width = width,
+    height = height
+  )
+
+  if (!is.null(snapshot_result$path)) {
+    return(invisible(snapshot_result$path))
+  }
+
+  message_text <- snapshot_result$message
+  if (isTRUE(placeholder)) {
+    cli::cli_warn(
+      paste(
+        "Static snapshot capture is unavailable",
+        if (!is.null(message_text) && nzchar(message_text)) {
+          paste0("(", message_text, ").")
+        } else {
+          "in this rgl build."
+        },
+        "Writing a placeholder PNG instead."
+      )
+    )
+    return(invisible(.write_placeholder_snapshot(file, html_file = html_path)))
+  }
+
+  if (!is.null(html_path)) {
+    cli::cli_warn(
+      "Static snapshot capture is unavailable; interactive HTML export written to {.file {html_path}}."
+    )
+  }
+
+  invisible(NULL)
 }

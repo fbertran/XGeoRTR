@@ -1,7 +1,7 @@
 Package: XGeoRTR
 Title: Platform for Explanation Geometry, Embeddings, and Multiscale Rendering
 Date: 2026-04-17
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(
     person(given = "Frederic", family = "Bertrand", role = c("cre", "aut"),
       email = "frederic.bertrand@lecnam.net", comment = c(ORCID = "0000-0002-0837-8281"))

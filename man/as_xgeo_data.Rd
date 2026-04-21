@@ -17,3 +17,11 @@ A \code{xgeo_data} object.
 \description{
 Coerce inputs to \code{xgeo_data}
 }
+\details{
+The \code{data.frame} method auto-detects canonical \code{point_id},
+\code{feature}, and \code{z} columns when those method arguments are omitted,
+and it falls back from \code{x}/\code{y} to \code{dim1}/\code{dim2}
+coordinates when needed. The \code{data.frame} and \code{matrix} methods also
+pass backend state arguments such as embeddings, diagnostics, LOD, and
+selection through to the constructed \code{xgeo_data}.
+}

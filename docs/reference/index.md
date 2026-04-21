@@ -46,6 +46,10 @@
 - [`set_xgeo_selection()`](set_xgeo_selection.md) : Set explicit point
   and feature selection on a scene
 
+- [`snapshot_webgl()`](snapshot_webgl.md) :
+
+  Save a static snapshot of an `xgeo_scene` when available
+
 - [`validate_xgeo_data()`](validate_xgeo_data.md) :
 
   Validate a `xgeo_data` object

@@ -15,3 +15,9 @@ validate_xgeo_data(x)
 \description{
 Validate a \code{xgeo_data} object
 }
+\details{
+Validation enforces the backend contract for \code{xgeo_data}, including
+embedding, diagnostics, LOD, and selection state, and rejects renderer-specific
+top-level fields such as \code{layers}, \code{views}, \code{camera},
+\code{theme}, and \code{render_backend}.
+}

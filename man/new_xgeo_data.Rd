@@ -11,6 +11,10 @@ new_xgeo_data(
   feature_meta = NULL,
   predictions = NULL,
   uncertainty = NULL,
+  embeddings = NULL,
+  diagnostics = NULL,
+  lod = NULL,
+  selection = NULL,
   baseline = NULL,
   structure = "spatial",
   method = "generic",
@@ -30,6 +34,15 @@ new_xgeo_data(
 \item{predictions}{Optional point-level predictions keyed by \code{point_id}.}
 
 \item{uncertainty}{Optional point-level uncertainty keyed by \code{point_id}.}
+
+\item{embeddings}{Optional embedding registry. Defaults to a backend spatial
+embedding derived from \code{points}.}
+
+\item{diagnostics}{Optional diagnostics registry.}
+
+\item{lod}{Optional level-of-detail registry.}
+
+\item{selection}{Optional selection state.}
 
 \item{baseline}{Optional numeric scalar reference value.}
 

@@ -94,3 +94,24 @@ test_that("render_webgl can export HTML when htmlwidgets is available", {
   expect_match(result, "\\.html$")
   try(rgl::close3d(), silent = TRUE)
 })
+
+test_that("snapshot_webgl creates a PNG and HTML fallback artifacts", {
+  scene <- xgeo_scene(
+    as_xgeo_data(matrix(c(1, -1, 2, 0), nrow = 2), method = "snapshot-demo"),
+    camera = list(preset = "top")
+  ) + geom_xgeo_surface(alpha = 0.7)
+
+  out_file <- tempfile(fileext = ".png")
+  result <- snapshot_webgl(
+    scene,
+    file = out_file,
+    open = FALSE,
+    html_fallback = TRUE,
+    placeholder = TRUE
+  )
+
+  expect_true(file.exists(out_file))
+  expect_match(result, "\\.png$")
+  expect_true(file.exists(sub("\\.png$", ".html", out_file)))
+  try(rgl::close3d(), silent = TRUE)
+})
