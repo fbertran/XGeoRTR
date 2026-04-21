@@ -1,12 +1,12 @@
-# Compute embedding diagnostics for a scene
+# Compute embedding diagnostics for a state
 
-Compute embedding diagnostics for a scene
+Compute embedding diagnostics for a state
 
 ## Usage
 
 ``` r
 compute_xgeo_diagnostics(
-  scene,
+  state,
   embedding = NULL,
   source = c("explanations", "point_meta", "points"),
   k = 10L,
@@ -16,9 +16,9 @@ compute_xgeo_diagnostics(
 
 ## Arguments
 
-- scene:
+- state:
 
-  An `xgeo_scene` object.
+  An `xgeo_state` object.
 
 - embedding:
 
@@ -38,4 +38,4 @@ compute_xgeo_diagnostics(
 
 ## Value
 
-The updated `xgeo_scene`.
+The updated `xgeo_state`.

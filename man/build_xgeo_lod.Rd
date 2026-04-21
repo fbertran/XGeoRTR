@@ -2,10 +2,10 @@
 % Please edit documentation in R/lod.R
 \name{build_xgeo_lod}
 \alias{build_xgeo_lod}
-\title{Build density-grid LOD summaries for a scene}
+\title{Build density-grid LOD summaries for a state}
 \usage{
 build_xgeo_lod(
-  scene,
+  state,
   embedding = NULL,
   levels = c(16L, 32L, 64L),
   color_by = c("count", "mean_value"),
@@ -14,7 +14,7 @@ build_xgeo_lod(
 )
 }
 \arguments{
-\item{scene}{An \code{xgeo_scene} object.}
+\item{state}{An \code{xgeo_state} object.}
 
 \item{embedding}{Optional embedding name. Defaults to the active embedding.}
 
@@ -27,8 +27,8 @@ build_xgeo_lod(
 \item{auto_threshold}{Point count threshold used by \code{lod_level = "auto"}.}
 }
 \value{
-The updated \code{xgeo_scene}.
+The updated \code{xgeo_state}.
 }
 \description{
-Build density-grid LOD summaries for a scene
+Build density-grid LOD summaries for a state
 }

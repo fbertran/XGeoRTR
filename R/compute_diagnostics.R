@@ -1,32 +1,32 @@
-#' Compute embedding diagnostics for a scene
+#' Compute embedding diagnostics for a state
 #'
-#' @param scene An `xgeo_scene` object.
+#' @param state An `xgeo_state` object.
 #' @param embedding Optional embedding name. Defaults to the active embedding.
 #' @param source Reference source space used for neighbour comparisons.
 #' @param k Number of neighbours.
 #' @param name Optional diagnostic bundle name.
 #'
-#' @return The updated `xgeo_scene`.
+#' @return The updated `xgeo_state`.
 #' @export
-compute_xgeo_diagnostics <- function(scene,
+compute_xgeo_diagnostics <- function(state,
                                      embedding = NULL,
                                      source = c("explanations", "point_meta", "points"),
                                      k = 10L,
                                      name = NULL) {
-  .validate_xgeo_scene(scene)
+  validate_xgeo_state(state)
   source <- match.arg(source)
 
   if (!.is_count(k)) {
     cli::cli_abort("{.arg k} must be a positive whole number.")
   }
 
-  embedding_name <- .or_default(embedding, scene$embeddings$active)
-  if (!(embedding_name %in% names(scene$embeddings$items))) {
+  embedding_name <- .or_default(embedding, state$attributes$embeddings$active)
+  if (!(embedding_name %in% names(state$attributes$embeddings$items))) {
     cli::cli_abort("Unknown embedding {.val {embedding_name}}.")
   }
 
-  reference <- .source_matrix_from_data(scene$data, source)
-  embedded_tbl <- scene$embeddings$items[[embedding_name]]$coords
+  reference <- .source_matrix_from_data(.xgeo_state_data(state), source)
+  embedded_tbl <- state$attributes$embeddings$items[[embedding_name]]$coords
   embedded <- as.matrix(embedded_tbl[, setdiff(names(embedded_tbl), "point_id"), drop = FALSE])
   rownames(embedded) <- embedded_tbl$point_id
 
@@ -43,7 +43,7 @@ compute_xgeo_diagnostics <- function(scene,
   trustworthiness <- .trustworthiness_score(reference, embedded, k)
 
   name <- .or_default(name, paste("diagnostics", embedding_name, source, sep = "_"))
-  scene$diagnostics$items[[name]] <- list(
+  state$attributes$diagnostics$items[[name]] <- list(
     name = name,
     embedding = embedding_name,
     source = source,
@@ -55,9 +55,9 @@ compute_xgeo_diagnostics <- function(scene,
     )
   )
 
-  if (is.null(scene$diagnostics$active)) {
-    scene$diagnostics$active <- name
+  if (is.null(state$attributes$diagnostics$active)) {
+    state$attributes$diagnostics$active <- name
   }
 
-  scene
+  state
 }

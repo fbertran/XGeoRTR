@@ -1,7 +1,7 @@
 bibentry(
   bibtype = "Manual",
-  title = "XGeoRTR: Spatial Explanation Geometry and Rendering Infrastructure",
+  title = "XGeoRTR: Backend-Neutral Explainable Geometry State and Operators",
   author = person("Frederic", "Bertrand"),
   year = "2026",
-  note = "R package version 0.1.0"
+  note = "R package version 0.4.0"
 )

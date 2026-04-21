@@ -1,10 +1,9 @@
-# XGeoRTR: Explanation Geometry, Embeddings, Diagnostics, and Multiscale Rendering
+# XGeoRTR: Backend-Neutral Explainable Geometry State
 
-Platform-level tools for standardizing explanation geometries into
-normalized `xgeo_data` objects, composing `xgeo_scene` specifications
-with embeddings, diagnostics, selection state, and level-of-detail
-summaries, and rendering point, density, and surface views through `rgl`
-/ WebGL workflows.
+Backend-level tools for standardizing explanation geometries into
+backend-neutral `xgeo_state` objects with embeddings, diagnostics,
+selection state, and multiscale level-of-detail summaries. Rendering is
+delegated to downstream frontends such as ggWebGL.
 
 ## Author
 

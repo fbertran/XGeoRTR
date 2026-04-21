@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">XGeoRTR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,16 +33,27 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.0" id="xgeortr-040">XGeoRTR 0.4.0<a class="anchor" aria-label="anchor" href="#xgeortr-040"></a></h2>
+<ul><li>Hard architectural break: <code>xgeo_scene</code> has been replaced by backend-neutral <code>xgeo_state</code>.</li>
+<li>Added <code><a href="../reference/as_xgeo_state.html">as_xgeo_state()</a></code>, <code><a href="../reference/write_xgeo_state.html">write_xgeo_state()</a></code>, and <code><a href="../reference/read_xgeo_state.html">read_xgeo_state()</a></code>.</li>
+<li>Added backend accessors: <code><a href="../reference/xgeo_geometry.html">xgeo_geometry()</a></code>, <code><a href="../reference/xgeo_attributes.html">xgeo_attributes()</a></code>, <code><a href="../reference/xgeo_indices.html">xgeo_indices()</a></code>, <code><a href="../reference/xgeo_selection.html">xgeo_selection()</a></code>, and <code><a href="../reference/xgeo_metadata.html">xgeo_metadata()</a></code>.</li>
+<li>Removed renderer-facing API from XGeoRTR: <code>render_webgl()</code>, <code>snapshot_webgl()</code>, <code>render_xgeo_layer()</code>, and all <code>geom_xgeo_*()</code> constructors.</li>
+<li>Retargeted embedding/diagnostics/LOD/selection operators to <code>xgeo_state</code>.</li>
+<li>
+<code>xgeo_data</code> is now internal-only and no longer part of the public API.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="xgeortr-020">XGeoRTR 0.2.0<a class="anchor" aria-label="anchor" href="#xgeortr-020"></a></h2>
 <ul><li>Redesigned <code>xgeo_data</code> as a normalized platform object with explicit <code>points</code>, <code>explanations</code>, <code>point_meta</code>, <code>feature_meta</code>, <code>predictions</code>, and <code>uncertainty</code>.</li>
 <li>Preserved unmapped point-level metadata during <code>as_xgeo_data.data.frame()</code> ingestion instead of dropping extra columns.</li>
-<li>Expanded <code><a href="../reference/xgeo_scene.html">xgeo_scene()</a></code> to own embeddings, diagnostics, LOD state, views, selection state, and scene metadata.</li>
+<li>Expanded <code>xgeo_scene()</code> to own embeddings, diagnostics, LOD state, views, selection state, and scene metadata.</li>
 <li>Added <code><a href="../reference/compute_xgeo_embedding.html">compute_xgeo_embedding()</a></code>, <code><a href="../reference/compute_xgeo_diagnostics.html">compute_xgeo_diagnostics()</a></code>, <code><a href="../reference/build_xgeo_lod.html">build_xgeo_lod()</a></code>, <code><a href="../reference/set_active_embedding.html">set_active_embedding()</a></code>, <code><a href="../reference/set_xgeo_selection.html">set_xgeo_selection()</a></code>, and <code><a href="../reference/set_xgeo_lod.html">set_xgeo_lod()</a></code>.</li>
-<li>Added <code><a href="../reference/geom_xgeo_points.html">geom_xgeo_points()</a></code> and <code><a href="../reference/geom_xgeo_density.html">geom_xgeo_density()</a></code> alongside the existing <code><a href="../reference/geom_xgeo_surface.html">geom_xgeo_surface()</a></code>.</li>
-<li>Added JSON scene IO through <code><a href="../reference/write_xgeo_scene.html">write_xgeo_scene()</a></code> and <code><a href="../reference/read_xgeo_scene.html">read_xgeo_scene()</a></code>.</li>
+<li>Added <code>geom_xgeo_points()</code> and <code>geom_xgeo_density()</code> alongside the existing <code>geom_xgeo_surface()</code>.</li>
+<li>Added JSON scene IO through <code>write_xgeo_scene()</code> and <code>read_xgeo_scene()</code>.</li>
 <li>Removed the misleading public <code>animate_camera_orbit()</code> helper because the renderer does not execute camera animation paths in this release.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

@@ -1,21 +1,21 @@
-#' Build density-grid LOD summaries for a scene
+#' Build density-grid LOD summaries for a state
 #'
-#' @param scene An `xgeo_scene` object.
+#' @param state An `xgeo_state` object.
 #' @param embedding Optional embedding name. Defaults to the active embedding.
 #' @param levels Integer vector of grid resolutions.
 #' @param color_by Statistic stored in each density grid.
 #' @param name Optional LOD bundle name.
 #' @param auto_threshold Point count threshold used by `lod_level = "auto"`.
 #'
-#' @return The updated `xgeo_scene`.
+#' @return The updated `xgeo_state`.
 #' @export
-build_xgeo_lod <- function(scene,
+build_xgeo_lod <- function(state,
                            embedding = NULL,
                            levels = c(16L, 32L, 64L),
                            color_by = c("count", "mean_value"),
                            name = NULL,
                            auto_threshold = 200L) {
-  .validate_xgeo_scene(scene)
+  validate_xgeo_state(state)
   color_by <- match.arg(color_by)
 
   if (!all(vapply(levels, .is_count, logical(1)))) {
@@ -25,8 +25,8 @@ build_xgeo_lod <- function(scene,
     cli::cli_abort("{.arg auto_threshold} must be a positive whole number.")
   }
 
-  embedding_name <- .or_default(embedding, scene$embeddings$active)
-  point_view <- .scene_point_view(scene, embedding = embedding_name)
+  embedding_name <- .or_default(embedding, state$attributes$embeddings$active)
+  point_view <- .xgeo_point_view(state, embedding = embedding_name)
   level_names <- as.character(sort(unique(as.integer(levels))))
 
   grids <- setNames(
@@ -37,7 +37,7 @@ build_xgeo_lod <- function(scene,
   )
 
   name <- .or_default(name, paste("density_grid", embedding_name, sep = "_"))
-  scene$lod$items[[name]] <- list(
+  state$lod$items[[name]] <- list(
     name = name,
     embedding = embedding_name,
     strategy = "density_grid",
@@ -47,12 +47,12 @@ build_xgeo_lod <- function(scene,
     auto_threshold = auto_threshold
   )
 
-  if (is.null(scene$lod$active$name)) {
-    scene$lod$active <- list(
+  if (is.null(state$lod$active$name)) {
+    state$lod$active <- list(
       name = name,
       level = tail(level_names, 1)
     )
   }
 
-  scene
+  state
 }

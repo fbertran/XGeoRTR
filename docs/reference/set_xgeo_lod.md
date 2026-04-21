@@ -1,22 +1,22 @@
-# Set the active level-of-detail state on a scene
+# Set the active level-of-detail state on a state
 
-Set the active level-of-detail state on a scene
+Set the active level-of-detail state on a state
 
 ## Usage
 
 ``` r
-set_xgeo_lod(scene, name = NULL, level = NULL)
+set_xgeo_lod(state, name = NULL, level = NULL)
 ```
 
 ## Arguments
 
-- scene:
+- state:
 
-  An `xgeo_scene` object.
+  An `xgeo_state` object.
 
 - name:
 
-  Optional LOD bundle name stored in `scene$lod$items`.
+  Optional LOD bundle name stored in `state$lod$items`.
 
 - level:
 
@@ -24,4 +24,4 @@ set_xgeo_lod(scene, name = NULL, level = NULL)
 
 ## Value
 
-The updated `xgeo_scene`.
+The updated `xgeo_state`.

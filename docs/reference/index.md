@@ -2,60 +2,58 @@
 
 ## All functions
 
-- [`as_xgeo_data()`](as_xgeo_data.md) :
+- [`as_xgeo_state()`](as_xgeo_state.md) :
 
-  Coerce inputs to `xgeo_data`
+  Coerce inputs to `xgeo_state`
 
 - [`build_xgeo_lod()`](build_xgeo_lod.md) : Build density-grid LOD
-  summaries for a scene
+  summaries for a state
 
 - [`compute_xgeo_diagnostics()`](compute_xgeo_diagnostics.md) : Compute
-  embedding diagnostics for a scene
+  embedding diagnostics for a state
 
 - [`compute_xgeo_embedding()`](compute_xgeo_embedding.md) : Compute and
   attach a platform embedding
 
-- [`geom_xgeo_density()`](geom_xgeo_density.md) : Add a density-grid
-  layer
-
-- [`geom_xgeo_points()`](geom_xgeo_points.md) : Add a point-cloud layer
-
-- [`geom_xgeo_surface()`](geom_xgeo_surface.md) : Add a generic surface
-  layer
-
-- [`new_xgeo_data()`](new_xgeo_data.md) :
-
-  Create a normalized `xgeo_data` object
-
-- [`read_xgeo_scene()`](read_xgeo_scene.md) : Read a scene from JSON
-
-- [`render_webgl()`](render_webgl.md) :
-
-  Render an `xgeo_scene` to `rgl` / WebGL
-
-- [`render_xgeo_layer()`](render_xgeo_layer.md) :
-
-  Render one `xgeo_layer`
+- [`read_xgeo_state()`](read_xgeo_state.md) : Read a backend state from
+  JSON
 
 - [`set_active_embedding()`](set_active_embedding.md) : Set the active
-  embedding on a scene
+  embedding on a state
 
 - [`set_xgeo_lod()`](set_xgeo_lod.md) : Set the active level-of-detail
-  state on a scene
+  state on a state
 
 - [`set_xgeo_selection()`](set_xgeo_selection.md) : Set explicit point
-  and feature selection on a scene
+  and feature selection on a state
 
-- [`snapshot_webgl()`](snapshot_webgl.md) :
+- [`validate_xgeo_state()`](validate_xgeo_state.md) :
 
-  Save a static snapshot of an `xgeo_scene` when available
+  Validate an `xgeo_state` object
 
-- [`validate_xgeo_data()`](validate_xgeo_data.md) :
+- [`write_xgeo_state()`](write_xgeo_state.md) : Write a backend state to
+  JSON
 
-  Validate a `xgeo_data` object
+- [`xgeo_attributes()`](xgeo_attributes.md) :
 
-- [`write_xgeo_scene()`](write_xgeo_scene.md) : Write a scene to JSON
+  Get attributes from an `xgeo_state`
 
-- [`xgeo_scene()`](xgeo_scene.md) :
+- [`xgeo_geometry()`](xgeo_geometry.md) :
 
-  Create an `xgeo_scene`
+  Get geometry from an `xgeo_state`
+
+- [`xgeo_indices()`](xgeo_indices.md) :
+
+  Get indices from an `xgeo_state`
+
+- [`xgeo_metadata()`](xgeo_metadata.md) :
+
+  Get metadata from an `xgeo_state`
+
+- [`xgeo_selection()`](xgeo_selection.md) :
+
+  Get selection from an `xgeo_state`
+
+- [`xgeo_state()`](xgeo_state.md) :
+
+  Create an `xgeo_state`

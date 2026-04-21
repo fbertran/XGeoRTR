@@ -4,13 +4,12 @@
 \name{XGeoRTR-package}
 \alias{XGeoRTR}
 \alias{XGeoRTR-package}
-\title{XGeoRTR: Explanation Geometry, Embeddings, Diagnostics, and Multiscale Rendering}
+\title{XGeoRTR: Backend-Neutral Explainable Geometry State}
 \description{
-Platform-level tools for standardizing explanation geometries into
-normalized \code{xgeo_data} objects, composing \code{xgeo_scene} specifications with
-embeddings, diagnostics, selection state, and level-of-detail summaries,
-and rendering point, density, and surface views through \code{rgl} / WebGL
-workflows.
+Backend-level tools for standardizing explanation geometries into
+backend-neutral \code{xgeo_state} objects with embeddings, diagnostics,
+selection state, and multiscale level-of-detail summaries.
+Rendering is delegated to downstream frontends such as ggWebGL.
 }
 \author{
 \strong{Maintainer}: Frederic Bertrand \email{frederic.bertrand@lecnam.net} (\href{https://orcid.org/0000-0002-0837-8281}{ORCID})

@@ -1,3 +1,16 @@
+# XGeoRTR 0.4.0
+
+- Hard architectural break: `xgeo_scene` has been replaced by backend-neutral
+  `xgeo_state`.
+- Added `as_xgeo_state()`, `write_xgeo_state()`, and `read_xgeo_state()`.
+- Added backend accessors: `xgeo_geometry()`, `xgeo_attributes()`,
+  `xgeo_indices()`, `xgeo_selection()`, and `xgeo_metadata()`.
+- Removed renderer-facing API from XGeoRTR:
+  `render_webgl()`, `snapshot_webgl()`, `render_xgeo_layer()`, and all
+  `geom_xgeo_*()` constructors.
+- Retargeted embedding/diagnostics/LOD/selection operators to `xgeo_state`.
+- `xgeo_data` is now internal-only and no longer part of the public API.
+
 # XGeoRTR 0.2.0
 
 - Redesigned `xgeo_data` as a normalized platform object with explicit

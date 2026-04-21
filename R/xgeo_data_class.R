@@ -19,7 +19,7 @@
 #' @param meta Optional metadata list.
 #'
 #' @return An object of class `xgeo_data`.
-#' @export
+#' @noRd
 new_xgeo_data <- function(points,
                           explanations,
                           point_meta = NULL,
@@ -99,7 +99,7 @@ new_xgeo_data <- function(points,
 #' @param x An object to validate.
 #'
 #' @return `x`, invisibly, when validation succeeds.
-#' @export
+#' @noRd
 validate_xgeo_data <- function(x) {
   if (!inherits(x, "xgeo_data")) {
     cli::cli_abort("{.arg x} must inherit from {.cls xgeo_data}.")
@@ -247,7 +247,7 @@ validate_xgeo_data <- function(x) {
   selection
 }
 
-#' @export
+#' @noRd
 print.xgeo_data <- function(x, ...) {
   validate_xgeo_data(x)
 
@@ -266,7 +266,7 @@ print.xgeo_data <- function(x, ...) {
   invisible(x)
 }
 
-#' @export
+#' @noRd
 summary.xgeo_data <- function(object, ...) {
   validate_xgeo_data(object)
 
@@ -290,7 +290,7 @@ summary.xgeo_data <- function(object, ...) {
   out
 }
 
-#' @export
+#' @noRd
 print.summary.xgeo_data <- function(x, ...) {
   cat(
     "<summary.xgeo_data>\n",

@@ -2,20 +2,20 @@
 % Please edit documentation in R/state.R
 \name{set_xgeo_selection}
 \alias{set_xgeo_selection}
-\title{Set explicit point and feature selection on a scene}
+\title{Set explicit point and feature selection on a state}
 \usage{
-set_xgeo_selection(scene, point_ids = NULL, features = NULL)
+set_xgeo_selection(state, point_ids = NULL, features = NULL)
 }
 \arguments{
-\item{scene}{An \code{xgeo_scene} object.}
+\item{state}{An \code{xgeo_state} object.}
 
 \item{point_ids}{Optional character vector of selected point ids.}
 
 \item{features}{Optional character vector of selected feature ids.}
 }
 \value{
-The updated \code{xgeo_scene}.
+The updated \code{xgeo_state}.
 }
 \description{
-Set explicit point and feature selection on a scene
+Set explicit point and feature selection on a state
 }

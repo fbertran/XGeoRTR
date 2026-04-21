@@ -1,12 +1,12 @@
-# Build density-grid LOD summaries for a scene
+# Build density-grid LOD summaries for a state
 
-Build density-grid LOD summaries for a scene
+Build density-grid LOD summaries for a state
 
 ## Usage
 
 ``` r
 build_xgeo_lod(
-  scene,
+  state,
   embedding = NULL,
   levels = c(16L, 32L, 64L),
   color_by = c("count", "mean_value"),
@@ -17,9 +17,9 @@ build_xgeo_lod(
 
 ## Arguments
 
-- scene:
+- state:
 
-  An `xgeo_scene` object.
+  An `xgeo_state` object.
 
 - embedding:
 
@@ -43,4 +43,4 @@ build_xgeo_lod(
 
 ## Value
 
-The updated `xgeo_scene`.
+The updated `xgeo_state`.

@@ -5,7 +5,7 @@
 \title{Compute and attach a platform embedding}
 \usage{
 compute_xgeo_embedding(
-  scene,
+  state,
   source = c("explanations", "point_meta", "points"),
   method = c("pca", "umap"),
   dims = 2L,
@@ -14,7 +14,7 @@ compute_xgeo_embedding(
 )
 }
 \arguments{
-\item{scene}{An \code{xgeo_scene} object.}
+\item{state}{An \code{xgeo_state} object.}
 
 \item{source}{Source matrix used to build the embedding. One of
 \code{"explanations"}, \code{"point_meta"}, or \code{"points"}.}
@@ -29,7 +29,7 @@ requires \code{uwot}.}
 \item{...}{Passed to backend-specific implementations.}
 }
 \value{
-The updated \code{xgeo_scene}.
+The updated \code{xgeo_state}.
 }
 \description{
 Compute and attach a platform embedding

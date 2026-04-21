@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">XGeoRTR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,24 +43,24 @@
 
       <dl><dt>
 
-          <code><a href="as_xgeo_data.html">as_xgeo_data()</a></code>
+          <code><a href="as_xgeo_state.html">as_xgeo_state()</a></code>
 
         </dt>
-        <dd>Coerce inputs to <code>xgeo_data</code></dd>
+        <dd>Coerce inputs to <code>xgeo_state</code></dd>
 
         <dt>
 
           <code><a href="build_xgeo_lod.html">build_xgeo_lod()</a></code>
 
         </dt>
-        <dd>Build density-grid LOD summaries for a scene</dd>
+        <dd>Build density-grid LOD summaries for a state</dd>
 
         <dt>
 
           <code><a href="compute_xgeo_diagnostics.html">compute_xgeo_diagnostics()</a></code>
 
         </dt>
-        <dd>Compute embedding diagnostics for a scene</dd>
+        <dd>Compute embedding diagnostics for a state</dd>
 
         <dt>
 
@@ -71,101 +71,87 @@
 
         <dt>
 
-          <code><a href="geom_xgeo_density.html">geom_xgeo_density()</a></code>
+          <code><a href="read_xgeo_state.html">read_xgeo_state()</a></code>
 
         </dt>
-        <dd>Add a density-grid layer</dd>
-
-        <dt>
-
-          <code><a href="geom_xgeo_points.html">geom_xgeo_points()</a></code>
-
-        </dt>
-        <dd>Add a point-cloud layer</dd>
-
-        <dt>
-
-          <code><a href="geom_xgeo_surface.html">geom_xgeo_surface()</a></code>
-
-        </dt>
-        <dd>Add a generic surface layer</dd>
-
-        <dt>
-
-          <code><a href="new_xgeo_data.html">new_xgeo_data()</a></code>
-
-        </dt>
-        <dd>Create a normalized <code>xgeo_data</code> object</dd>
-
-        <dt>
-
-          <code><a href="read_xgeo_scene.html">read_xgeo_scene()</a></code>
-
-        </dt>
-        <dd>Read a scene from JSON</dd>
-
-        <dt>
-
-          <code><a href="render_webgl.html">render_webgl()</a></code>
-
-        </dt>
-        <dd>Render an <code>xgeo_scene</code> to <code>rgl</code> / WebGL</dd>
-
-        <dt>
-
-          <code><a href="render_xgeo_layer.html">render_xgeo_layer()</a></code>
-
-        </dt>
-        <dd>Render one <code>xgeo_layer</code></dd>
+        <dd>Read a backend state from JSON</dd>
 
         <dt>
 
           <code><a href="set_active_embedding.html">set_active_embedding()</a></code>
 
         </dt>
-        <dd>Set the active embedding on a scene</dd>
+        <dd>Set the active embedding on a state</dd>
 
         <dt>
 
           <code><a href="set_xgeo_lod.html">set_xgeo_lod()</a></code>
 
         </dt>
-        <dd>Set the active level-of-detail state on a scene</dd>
+        <dd>Set the active level-of-detail state on a state</dd>
 
         <dt>
 
           <code><a href="set_xgeo_selection.html">set_xgeo_selection()</a></code>
 
         </dt>
-        <dd>Set explicit point and feature selection on a scene</dd>
+        <dd>Set explicit point and feature selection on a state</dd>
 
         <dt>
 
-          <code><a href="snapshot_webgl.html">snapshot_webgl()</a></code>
+          <code><a href="validate_xgeo_state.html">validate_xgeo_state()</a></code>
 
         </dt>
-        <dd>Save a static snapshot of an <code>xgeo_scene</code> when available</dd>
+        <dd>Validate an <code>xgeo_state</code> object</dd>
 
         <dt>
 
-          <code><a href="validate_xgeo_data.html">validate_xgeo_data()</a></code>
+          <code><a href="write_xgeo_state.html">write_xgeo_state()</a></code>
 
         </dt>
-        <dd>Validate a <code>xgeo_data</code> object</dd>
+        <dd>Write a backend state to JSON</dd>
 
         <dt>
 
-          <code><a href="write_xgeo_scene.html">write_xgeo_scene()</a></code>
+          <code><a href="xgeo_attributes.html">xgeo_attributes()</a></code>
 
         </dt>
-        <dd>Write a scene to JSON</dd>
+        <dd>Get attributes from an <code>xgeo_state</code></dd>
 
         <dt>
 
-          <code><a href="xgeo_scene.html">xgeo_scene()</a></code>
+          <code><a href="xgeo_geometry.html">xgeo_geometry()</a></code>
 
         </dt>
-        <dd>Create an <code>xgeo_scene</code></dd>
+        <dd>Get geometry from an <code>xgeo_state</code></dd>
+
+        <dt>
+
+          <code><a href="xgeo_indices.html">xgeo_indices()</a></code>
+
+        </dt>
+        <dd>Get indices from an <code>xgeo_state</code></dd>
+
+        <dt>
+
+          <code><a href="xgeo_metadata.html">xgeo_metadata()</a></code>
+
+        </dt>
+        <dd>Get metadata from an <code>xgeo_state</code></dd>
+
+        <dt>
+
+          <code><a href="xgeo_selection.html">xgeo_selection()</a></code>
+
+        </dt>
+        <dd>Get selection from an <code>xgeo_state</code></dd>
+
+        <dt>
+
+          <code><a href="xgeo_state.html">xgeo_state()</a></code>
+
+        </dt>
+        <dd>Create an <code>xgeo_state</code></dd>
       </dl></div>
   </main></div>
 

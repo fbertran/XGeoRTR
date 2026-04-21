@@ -4,56 +4,58 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-
-
 # XGeoRTR
 ## Frédéric Bertrand
 
-`XGeoRTR` is the general platform package for explanation geometry in R. It
-owns the neutral data model, scene abstraction, embeddings, diagnostics,
-multiscale summaries, and `rgl` / WebGL export path.
+`XGeoRTR` is a backend-neutral explainable geometry/state package for R.
+It owns geometry-aware state, embeddings, diagnostics, multiscale summaries,
+selection state, and JSON state exchange. Rendering is delegated to downstream
+packages such as `ggWebGL`.
 
 ## Main features
 
-- Normalized `xgeo_data` objects with explicit `points`, `explanations`,
-  `point_meta`, `feature_meta`, `predictions`, and `uncertainty`.
-- `as_xgeo_data()` preserves unmapped point-level metadata during ingestion.
-- `xgeo_scene()` owns embeddings, diagnostics, selection state, LOD state, and
-  scene metadata.
-- `compute_xgeo_embedding()`, `compute_xgeo_diagnostics()`, and
-  `build_xgeo_lod()` provide a first platform path for embeddings,
-  trustworthiness, local agreement, and density-grid multiscale summaries.
-- `geom_xgeo_surface()`, `geom_xgeo_points()`, and `geom_xgeo_density()` cover
-  regular-grid, point-cloud, and density views.
-- `render_webgl()` renders scenes to `rgl` and exports HTML widgets when
-  `htmlwidgets` is available.
-- `write_xgeo_scene()` / `read_xgeo_scene()` provide JSON scene interchange.
+- Canonical backend object: `xgeo_state()`
+- Coercion: `as_xgeo_state()`
+- State operators:
+  - `compute_xgeo_embedding()`
+  - `compute_xgeo_diagnostics()`
+  - `build_xgeo_lod()`
+  - `set_active_embedding()`
+  - `set_xgeo_selection()`
+  - `set_xgeo_lod()`
+- Backend-neutral accessors:
+  - `xgeo_geometry()`
+  - `xgeo_attributes()`
+  - `xgeo_indices()`
+  - `xgeo_selection()`
+  - `xgeo_metadata()`
+- Serialization:
+  - `write_xgeo_state()`
+  - `read_xgeo_state()`
 
 ## Installation
 
 For local development from checked-out repositories:
 
 ```r
-install.packages(c("cli", "jsonlite", "rgl"))
+install.packages(c("cli", "jsonlite"))
 devtools::load_all(".")
 ```
 
 Optional packages:
 
-- `htmlwidgets` for `render_webgl(file = ...)`
 - `uwot` for optional UMAP embeddings
 - `knitr`, `rmarkdown`, and `pkgdown` for documentation work
 
-## A first generic workflow
+## Build backend state
 
-
-``` r
+```r
 library(XGeoRTR)
 
 demo_path <- system.file("extdata", "spatial_demo.csv", package = "XGeoRTR")
 demo_tbl <- utils::read.csv(demo_path, stringsAsFactors = FALSE)
 
-xd <- as_xgeo_data(
+state <- as_xgeo_state(
   demo_tbl,
   x_col = "x",
   y_col = "y",
@@ -64,59 +66,27 @@ xd <- as_xgeo_data(
   meta = list(source = "synthetic-demo", sample_id = "grid-01")
 )
 
-summary(xd)
+state <- compute_xgeo_embedding(state, method = "pca", source = "points", dims = 2)
+state <- set_active_embedding(state, "pca_points")
+state <- compute_xgeo_diagnostics(state, embedding = "pca_points", source = "points", k = 3)
+state <- build_xgeo_lod(state, embedding = "pca_points", levels = c(8L, 16L), auto_threshold = 10L)
+state <- set_xgeo_selection(state, point_ids = state$indices$point_ids[[1]])
+
+summary(state)
 ```
 
-## Build a platform scene
+## Write and reload state
 
-
-``` r
-scene <- xgeo_scene(xd, camera = list(preset = "top"))
-scene <- compute_xgeo_embedding(scene, method = "pca", source = "points", dims = 2)
-scene <- set_active_embedding(scene, "pca_points")
-scene <- compute_xgeo_diagnostics(scene, embedding = "pca_points", source = "points", k = 3)
-scene <- build_xgeo_lod(scene, embedding = "pca_points", levels = c(8L, 16L), auto_threshold = 10L)
-```
-
-## Render point and density views
-
-
-``` r
-point_scene <- scene + geom_xgeo_points(color_by = "local_agreement", size = 8)
-density_scene <- scene + geom_xgeo_density(lod_name = "density_grid_pca_points", level = "16")
-surface_scene <- xgeo_scene(xd, camera = list(preset = "top")) +
-  geom_xgeo_surface(alpha = 0.7, smooth = TRUE)
-
-render_webgl(point_scene, lod_level = "auto")
-render_webgl(density_scene)
-render_webgl(surface_scene)
-```
-
-## Write and reload a scene
-
-
-``` r
+```r
 out_json <- tempfile(fileext = ".json")
-write_xgeo_scene(point_scene, out_json)
-restored_scene <- read_xgeo_scene(out_json)
+write_xgeo_state(state, out_json)
+restored_state <- read_xgeo_state(out_json)
 ```
 
-## Status
+## Scope
 
-`XGeoRTR` is the general platform layer for the current spatial-only release.
-It already owns:
+`XGeoRTR` is upstream of rendering layers. It provides state and computation;
+frontends render that state.
 
-- scene model
-- embeddings
-- diagnostics
-- density-grid LOD summaries
-- interaction state through explicit selection and active-view state
-- JSON export/import
-- point, density, and surface rendering
-
-The current boundary is still deliberate:
-
-- one structure type: `spatial`
-- one rendering backend: `rgl`
-- no browser-side zoom callbacks yet
-- no mesh or event-time renderers yet
+- XGeoRTR: backend geometry/state semantics
+- ggWebGL (or another renderer): scene, camera, viewport, drawing

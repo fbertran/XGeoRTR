@@ -7,12 +7,12 @@
 
 ## Citation
 
-Bertrand F (2026). *XGeoRTR: Spatial Explanation Geometry and Rendering
-Infrastructure*. R package version 0.1.0.
+Bertrand F (2026). *XGeoRTR: Backend-Neutral Explainable Geometry State
+and Operators*. R package version 0.4.0.
 
     @Manual{,
-      title = {XGeoRTR: Spatial Explanation Geometry and Rendering Infrastructure},
+      title = {XGeoRTR: Backend-Neutral Explainable Geometry State and Operators},
       author = {Frederic Bertrand},
       year = {2026},
-      note = {R package version 0.1.0},
+      note = {R package version 0.4.0},
     }

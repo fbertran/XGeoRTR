@@ -1,18 +1,18 @@
-# Set explicit point and feature selection on a scene
+# Set explicit point and feature selection on a state
 
-Set explicit point and feature selection on a scene
+Set explicit point and feature selection on a state
 
 ## Usage
 
 ``` r
-set_xgeo_selection(scene, point_ids = NULL, features = NULL)
+set_xgeo_selection(state, point_ids = NULL, features = NULL)
 ```
 
 ## Arguments
 
-- scene:
+- state:
 
-  An `xgeo_scene` object.
+  An `xgeo_state` object.
 
 - point_ids:
 
@@ -24,4 +24,4 @@ set_xgeo_selection(scene, point_ids = NULL, features = NULL)
 
 ## Value
 
-The updated `xgeo_scene`.
+The updated `xgeo_state`.

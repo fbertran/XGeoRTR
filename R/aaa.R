@@ -5,7 +5,7 @@
 }
 
 .xgeo_schema_version <- function() {
-  "0.2.0"
+  "0.3.0"
 }
 
 .or_default <- function(x, default) {

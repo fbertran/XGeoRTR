@@ -339,13 +339,24 @@
   merge(x, y, by = by, all.x = TRUE, sort = FALSE)
 }
 
-.scene_point_view <- function(scene, embedding = NULL) {
-  embedding_name <- .or_default(embedding, scene$embeddings$active)
-  if (!(embedding_name %in% names(scene$embeddings$items))) {
+.xgeo_state_data <- function(state) {
+  list(
+    points = state$geometry$points,
+    explanations = state$attributes$explanations,
+    point_meta = state$attributes$point_meta,
+    feature_meta = state$attributes$feature_meta,
+    predictions = state$attributes$predictions,
+    uncertainty = state$attributes$uncertainty
+  )
+}
+
+.xgeo_point_view <- function(state, embedding = NULL) {
+  embedding_name <- .or_default(embedding, state$attributes$embeddings$active)
+  if (!(embedding_name %in% names(state$attributes$embeddings$items))) {
     cli::cli_abort("Unknown embedding {.val {embedding_name}}.")
   }
 
-  coords <- scene$embeddings$items[[embedding_name]]$coords
+  coords <- state$attributes$embeddings$items[[embedding_name]]$coords
   coord_cols <- setdiff(names(coords), "point_id")
 
   if (length(coord_cols) < 2L) {
@@ -365,15 +376,16 @@
     }
   )
 
-  values <- .point_value_table(scene$data)[, c("point_id", "value"), drop = FALSE]
+  data <- .xgeo_state_data(state)
+  values <- .point_value_table(data)[, c("point_id", "value"), drop = FALSE]
   out <- .safe_merge(out, values, by = "point_id")
-  out <- .safe_merge(out, scene$data$point_meta, by = "point_id")
-  out <- .safe_merge(out, scene$data$predictions, by = "point_id")
-  out <- .safe_merge(out, scene$data$uncertainty, by = "point_id")
+  out <- .safe_merge(out, data$point_meta, by = "point_id")
+  out <- .safe_merge(out, data$predictions, by = "point_id")
+  out <- .safe_merge(out, data$uncertainty, by = "point_id")
 
-  active_diag <- scene$diagnostics$active
-  if (!is.null(active_diag) && active_diag %in% names(scene$diagnostics$items)) {
-    diag_tbl <- scene$diagnostics$items[[active_diag]]$per_point
+  active_diag <- state$attributes$diagnostics$active
+  if (!is.null(active_diag) && active_diag %in% names(state$attributes$diagnostics$items)) {
+    diag_tbl <- state$attributes$diagnostics$items[[active_diag]]$per_point
     out <- .safe_merge(out, diag_tbl, by = "point_id")
   }
 
@@ -600,30 +612,6 @@
   list(active = active, items = items, auto = auto)
 }
 
-.normalize_views <- function(views) {
-  base <- list(
-    active = "main",
-    items = list(main = list(title = "main"))
-  )
-
-  if (is.null(views)) {
-    return(base)
-  }
-
-  items <- .or_default(views$items, base$items)
-  active <- .or_default(views$active, base$active)
-
-  if (!is.list(items)) {
-    cli::cli_abort("{.arg views$items} must be a list.")
-  }
-
-  if (!(active %in% names(items))) {
-    cli::cli_abort("Unknown active view {.val {active}}.")
-  }
-
-  list(active = active, items = items)
-}
-
 .normalize_selection <- function(selection) {
   base <- list(point_ids = character(), features = character())
   if (is.null(selection)) {
@@ -686,15 +674,4 @@
     counts = counts,
     color_by = color_by
   )
-}
-
-.serialize_layer <- function(layer) {
-  list(
-    class = class(layer),
-    fields = unclass(layer)
-  )
-}
-
-.deserialize_layer <- function(layer) {
-  structure(layer$fields, class = unlist(layer$class, use.names = FALSE))
 }

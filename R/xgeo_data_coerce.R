@@ -7,18 +7,18 @@
 #' @param ... Passed to method-specific implementations.
 #'
 #' @return A `xgeo_data` object.
-#' @export
+#' @noRd
 as_xgeo_data <- function(x, ...) {
   UseMethod("as_xgeo_data")
 }
 
-#' @export
+#' @noRd
 as_xgeo_data.xgeo_data <- function(x, ...) {
   validate_xgeo_data(x)
   x
 }
 
-#' @export
+#' @noRd
 as_xgeo_data.data.frame <- function(x,
                                     value_col = "value",
                                     x_col = "x",
@@ -86,7 +86,7 @@ as_xgeo_data.data.frame <- function(x,
   )
 }
 
-#' @export
+#' @noRd
 as_xgeo_data.matrix <- function(x,
                                 coordinates = NULL,
                                 embeddings = NULL,

@@ -6,7 +6,7 @@ Compute and attach a platform embedding
 
 ``` r
 compute_xgeo_embedding(
-  scene,
+  state,
   source = c("explanations", "point_meta", "points"),
   method = c("pca", "umap"),
   dims = 2L,
@@ -17,9 +17,9 @@ compute_xgeo_embedding(
 
 ## Arguments
 
-- scene:
+- state:
 
-  An `xgeo_scene` object.
+  An `xgeo_state` object.
 
 - source:
 
@@ -45,4 +45,4 @@ compute_xgeo_embedding(
 
 ## Value
 
-The updated `xgeo_scene`.
+The updated `xgeo_state`.

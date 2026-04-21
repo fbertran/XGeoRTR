@@ -1,19 +1,19 @@
-#' Set explicit point and feature selection on a scene
+#' Set explicit point and feature selection on a state
 #'
-#' @param scene An `xgeo_scene` object.
+#' @param state An `xgeo_state` object.
 #' @param point_ids Optional character vector of selected point ids.
 #' @param features Optional character vector of selected feature ids.
 #'
-#' @return The updated `xgeo_scene`.
+#' @return The updated `xgeo_state`.
 #' @export
-set_xgeo_selection <- function(scene, point_ids = NULL, features = NULL) {
-  .validate_xgeo_scene(scene)
+set_xgeo_selection <- function(state, point_ids = NULL, features = NULL) {
+  validate_xgeo_state(state)
 
   point_ids <- unique(as.character(.or_default(point_ids, character())))
   features <- unique(as.character(.or_default(features, character())))
 
   if (length(point_ids) > 0L) {
-    missing_points <- setdiff(point_ids, scene$data$points$point_id)
+    missing_points <- setdiff(point_ids, state$indices$point_ids)
     if (length(missing_points) > 0L) {
       cli::cli_abort(
         "Unknown {.arg point_ids}: {.val {missing_points}}."
@@ -22,7 +22,7 @@ set_xgeo_selection <- function(scene, point_ids = NULL, features = NULL) {
   }
 
   if (length(features) > 0L) {
-    missing_features <- setdiff(features, scene$data$feature_meta$feature)
+    missing_features <- setdiff(features, state$indices$feature_ids)
     if (length(missing_features) > 0L) {
       cli::cli_abort(
         "Unknown {.arg features}: {.val {missing_features}}."
@@ -30,58 +30,58 @@ set_xgeo_selection <- function(scene, point_ids = NULL, features = NULL) {
     }
   }
 
-  scene$selection <- list(
+  state$selection <- list(
     point_ids = point_ids,
     features = features
   )
-  scene
+  state
 }
 
-#' Set the active embedding on a scene
+#' Set the active embedding on a state
 #'
-#' @param scene An `xgeo_scene` object.
-#' @param name Name of an embedding stored in `scene$embeddings$items`.
+#' @param state An `xgeo_state` object.
+#' @param name Name of an embedding stored in `state$attributes$embeddings$items`.
 #'
-#' @return The updated `xgeo_scene`.
+#' @return The updated `xgeo_state`.
 #' @export
-set_active_embedding <- function(scene, name) {
-  .validate_xgeo_scene(scene)
+set_active_embedding <- function(state, name) {
+  validate_xgeo_state(state)
 
   if (!.is_scalar_string(name)) {
     cli::cli_abort("{.arg name} must be a single string.")
   }
 
-  if (!(name %in% names(scene$embeddings$items))) {
+  if (!(name %in% names(state$attributes$embeddings$items))) {
     cli::cli_abort(
       "Unknown embedding {.val {name}}."
     )
   }
 
-  scene$embeddings$active <- name
-  scene
+  state$attributes$embeddings$active <- name
+  state
 }
 
-#' Set the active level-of-detail state on a scene
+#' Set the active level-of-detail state on a state
 #'
-#' @param scene An `xgeo_scene` object.
-#' @param name Optional LOD bundle name stored in `scene$lod$items`.
+#' @param state An `xgeo_state` object.
+#' @param name Optional LOD bundle name stored in `state$lod$items`.
 #' @param level Optional level inside the selected LOD bundle.
 #'
-#' @return The updated `xgeo_scene`.
+#' @return The updated `xgeo_state`.
 #' @export
-set_xgeo_lod <- function(scene, name = NULL, level = NULL) {
-  .validate_xgeo_scene(scene)
+set_xgeo_lod <- function(state, name = NULL, level = NULL) {
+  validate_xgeo_state(state)
 
   if (is.null(name)) {
-    scene$lod$active <- list(name = NULL, level = NULL)
-    return(scene)
+    state$lod$active <- list(name = NULL, level = NULL)
+    return(state)
   }
 
-  if (!(name %in% names(scene$lod$items))) {
+  if (!(name %in% names(state$lod$items))) {
     cli::cli_abort("Unknown LOD bundle {.val {name}}.")
   }
 
-  bundle <- scene$lod$items[[name]]
+  bundle <- state$lod$items[[name]]
   if (is.null(level)) {
     level <- bundle$default_level
   }
@@ -93,6 +93,6 @@ set_xgeo_lod <- function(scene, name = NULL, level = NULL) {
     )
   }
 
-  scene$lod$active <- list(name = name, level = level)
-  scene
+  state$lod$active <- list(name = name, level = level)
+  state
 }

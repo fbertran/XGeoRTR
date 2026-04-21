@@ -2,20 +2,20 @@
 % Please edit documentation in R/state.R
 \name{set_xgeo_lod}
 \alias{set_xgeo_lod}
-\title{Set the active level-of-detail state on a scene}
+\title{Set the active level-of-detail state on a state}
 \usage{
-set_xgeo_lod(scene, name = NULL, level = NULL)
+set_xgeo_lod(state, name = NULL, level = NULL)
 }
 \arguments{
-\item{scene}{An \code{xgeo_scene} object.}
+\item{state}{An \code{xgeo_state} object.}
 
-\item{name}{Optional LOD bundle name stored in \code{scene$lod$items}.}
+\item{name}{Optional LOD bundle name stored in \code{state$lod$items}.}
 
 \item{level}{Optional level inside the selected LOD bundle.}
 }
 \value{
-The updated \code{xgeo_scene}.
+The updated \code{xgeo_state}.
 }
 \description{
-Set the active level-of-detail state on a scene
+Set the active level-of-detail state on a state
 }

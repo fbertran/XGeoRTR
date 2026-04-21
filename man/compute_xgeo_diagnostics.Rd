@@ -2,10 +2,10 @@
 % Please edit documentation in R/compute_diagnostics.R
 \name{compute_xgeo_diagnostics}
 \alias{compute_xgeo_diagnostics}
-\title{Compute embedding diagnostics for a scene}
+\title{Compute embedding diagnostics for a state}
 \usage{
 compute_xgeo_diagnostics(
-  scene,
+  state,
   embedding = NULL,
   source = c("explanations", "point_meta", "points"),
   k = 10L,
@@ -13,7 +13,7 @@ compute_xgeo_diagnostics(
 )
 }
 \arguments{
-\item{scene}{An \code{xgeo_scene} object.}
+\item{state}{An \code{xgeo_state} object.}
 
 \item{embedding}{Optional embedding name. Defaults to the active embedding.}
 
@@ -24,8 +24,8 @@ compute_xgeo_diagnostics(
 \item{name}{Optional diagnostic bundle name.}
 }
 \value{
-The updated \code{xgeo_scene}.
+The updated \code{xgeo_state}.
 }
 \description{
-Compute embedding diagnostics for a scene
+Compute embedding diagnostics for a state
 }

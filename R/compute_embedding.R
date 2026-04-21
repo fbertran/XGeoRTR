@@ -1,6 +1,6 @@
 #' Compute and attach a platform embedding
 #'
-#' @param scene An `xgeo_scene` object.
+#' @param state An `xgeo_state` object.
 #' @param source Source matrix used to build the embedding. One of
 #'   `"explanations"`, `"point_meta"`, or `"points"`.
 #' @param method Embedding backend. `"pca"` is always available; `"umap"`
@@ -9,15 +9,15 @@
 #' @param name Optional embedding name. Defaults to `<method>_<source>`.
 #' @param ... Passed to backend-specific implementations.
 #'
-#' @return The updated `xgeo_scene`.
+#' @return The updated `xgeo_state`.
 #' @export
-compute_xgeo_embedding <- function(scene,
+compute_xgeo_embedding <- function(state,
                                    source = c("explanations", "point_meta", "points"),
                                    method = c("pca", "umap"),
                                    dims = 2L,
                                    name = NULL,
                                    ...) {
-  .validate_xgeo_scene(scene)
+  validate_xgeo_state(state)
   source <- match.arg(source)
   method <- match.arg(method)
 
@@ -25,7 +25,7 @@ compute_xgeo_embedding <- function(scene,
     cli::cli_abort("{.arg dims} must be a positive whole number.")
   }
 
-  source_matrix <- .source_matrix_from_data(scene$data, source)
+  source_matrix <- .source_matrix_from_data(.xgeo_state_data(state), source)
   point_ids <- rownames(source_matrix)
 
   coords <- if (identical(method, "pca")) {
@@ -56,7 +56,7 @@ compute_xgeo_embedding <- function(scene,
     cli::cli_abort("{.arg name} must be a single string.")
   }
 
-  scene$embeddings$items[[name]] <- .embedding_record(
+  state$attributes$embeddings$items[[name]] <- .embedding_record(
     name = name,
     method = method,
     source = source,
@@ -66,5 +66,5 @@ compute_xgeo_embedding <- function(scene,
     )
   )
 
-  scene
+  state
 }

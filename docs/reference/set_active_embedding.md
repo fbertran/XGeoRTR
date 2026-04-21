@@ -1,23 +1,23 @@
-# Set the active embedding on a scene
+# Set the active embedding on a state
 
-Set the active embedding on a scene
+Set the active embedding on a state
 
 ## Usage
 
 ``` r
-set_active_embedding(scene, name)
+set_active_embedding(state, name)
 ```
 
 ## Arguments
 
-- scene:
+- state:
 
-  An `xgeo_scene` object.
+  An `xgeo_state` object.
 
 - name:
 
-  Name of an embedding stored in `scene$embeddings$items`.
+  Name of an embedding stored in `state$attributes$embeddings$items`.
 
 ## Value
 
-The updated `xgeo_scene`.
+The updated `xgeo_state`.

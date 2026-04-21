@@ -1,7 +1,7 @@
 Package: XGeoRTR
-Title: Platform for Explanation Geometry, Embeddings, and Multiscale Rendering
-Date: 2026-04-17
-Version: 0.3.0
+Title: Backend-Neutral Explainable Geometry State and Operators
+Date: 2026-04-21
+Version: 0.4.0
 Authors@R: c(
     person(given = "Frederic", family = "Bertrand", role = c("cre", "aut"),
       email = "frederic.bertrand@lecnam.net", comment = c(ORCID = "0000-0002-0837-8281"))
@@ -10,11 +10,10 @@ Author: Frederic Bertrand [cre, aut] (<https://orcid.org/0000-0002-0837-8281>)
 Maintainer: Frederic Bertrand <frederic.bertrand@lecnam.net>
 Description: Provides the platform layer for explanation geometry in R.
     The package standardizes generic explanation tables into a normalized
-    'xgeo_data' object, composes scene specifications with embeddings,
-    diagnostics, multiscale level-of-detail state, selection state, and
-    export metadata, renders point, density, and surface views through
-    'rgl' / WebGL, and serializes scenes to JSON for reproducible
-    workflows.
+    backend state object, computes embeddings, diagnostics, and multiscale
+    level-of-detail summaries, and serializes backend-neutral state for
+    reproducible workflows. Rendering and viewport orchestration are
+    delegated to downstream frontends such as ggWebGL.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -22,10 +21,8 @@ RoxygenNote: 7.3.3
 Depends: R (>= 4.1.0)
 Imports:
     cli,
-    jsonlite,
-    rgl
+    jsonlite
 Suggests:
-    htmlwidgets,
     knitr,
     pkgdown,
     rmarkdown,

@@ -2,18 +2,18 @@
 % Please edit documentation in R/state.R
 \name{set_active_embedding}
 \alias{set_active_embedding}
-\title{Set the active embedding on a scene}
+\title{Set the active embedding on a state}
 \usage{
-set_active_embedding(scene, name)
+set_active_embedding(state, name)
 }
 \arguments{
-\item{scene}{An \code{xgeo_scene} object.}
+\item{state}{An \code{xgeo_state} object.}
 
-\item{name}{Name of an embedding stored in \code{scene$embeddings$items}.}
+\item{name}{Name of an embedding stored in \code{state$attributes$embeddings$items}.}
 }
 \value{
-The updated \code{xgeo_scene}.
+The updated \code{xgeo_state}.
 }
 \description{
-Set the active embedding on a scene
+Set the active embedding on a state
 }
