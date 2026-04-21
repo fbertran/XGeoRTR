@@ -32,6 +32,7 @@ as_xgeo_state.matrix <- function(x, ...) {
   .xgeo_state_from_xgeo_data(as_xgeo_data(x, ...))
 }
 
+#' @export
 as_xgeo_state.xgeo_data <- function(x, ...) {
   .xgeo_state_from_xgeo_data(as_xgeo_data(x, ...))
 }

@@ -22,8 +22,18 @@ test_that("compute_xgeo_embedding adds PCA and optional UMAP embeddings", {
   expect_equal(ncol(state$attributes$embeddings$items$pca_explanations$coords), 3L)
 
   if (requireNamespace("uwot", quietly = TRUE)) {
-    state <- compute_xgeo_embedding(state, method = "umap", dims = 2)
-    expect_true("umap_explanations" %in% names(state$attributes$embeddings$items))
+    umap_state <- xgeo_state(matrix(seq_len(16), nrow = 4))
+    umap_state <- compute_xgeo_embedding(
+      umap_state,
+      method = "umap",
+      source = "points",
+      dims = 2,
+      n_neighbors = 2,
+      n_epochs = 20,
+      init = "random",
+      n_threads = 1
+    )
+    expect_true("umap_points" %in% names(umap_state$attributes$embeddings$items))
   }
 })
 

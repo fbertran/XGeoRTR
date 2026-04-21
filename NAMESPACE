@@ -3,6 +3,7 @@
 S3method(as_xgeo_state,data.frame)
 S3method(as_xgeo_state,default)
 S3method(as_xgeo_state,matrix)
+S3method(as_xgeo_state,xgeo_data)
 S3method(as_xgeo_state,xgeo_state)
 S3method(print,summary.xgeo_state)
 S3method(print,xgeo_state)

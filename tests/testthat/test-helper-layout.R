@@ -1,4 +1,22 @@
-test_that("milestone 4 internal helper layout is backend-only", {
+test_that("milestone 4 internal helpers are present in the namespace", {
+  ns <- asNamespace("XGeoRTR")
+  expected_helpers <- c(
+    ".coerce_spatial_long_table",
+    ".xgeo_embedding_point_table",
+    ".regular_grid_from_long",
+    ".source_matrix_from_data"
+  )
+
+  expect_true(all(vapply(
+    expected_helpers,
+    exists,
+    logical(1),
+    envir = ns,
+    inherits = FALSE
+  )))
+})
+
+test_that("milestone 4 source helper modules are backend-only", {
   helper_files <- file.path(
     testthat::test_path("..", "..", "R"),
     c(
@@ -9,7 +27,10 @@ test_that("milestone 4 internal helper layout is backend-only", {
     )
   )
 
-  expect_true(all(file.exists(helper_files)))
+  skip_if_not(
+    all(file.exists(helper_files)),
+    "Source helper files are only available in source-tree tests."
+  )
 
   helper_text <- paste(unlist(lapply(helper_files, readLines, warn = FALSE)), collapse = "\n")
   forbidden_vocab <- "\\b(scene|render|camera|viewport|canvas|theme|shader|widget|snapshot|layer|view)\\b"
