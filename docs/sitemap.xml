@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
 <url><loc>/AGENTS.html</loc></url>
+<url><loc>/INTERFACE_FREEZE.html</loc></url>
 <url><loc>/ROADMAP.html</loc></url>
 <url><loc>/TASKS.html</loc></url>
 <url><loc>/VALIDATION.html</loc></url>
@@ -22,9 +23,12 @@
 <url><loc>/reference/validate_xgeo_state.html</loc></url>
 <url><loc>/reference/write_xgeo_state.html</loc></url>
 <url><loc>/reference/xgeo_attributes.html</loc></url>
+<url><loc>/reference/xgeo_explanation_table.html</loc></url>
 <url><loc>/reference/xgeo_geometry.html</loc></url>
 <url><loc>/reference/xgeo_indices.html</loc></url>
 <url><loc>/reference/xgeo_metadata.html</loc></url>
+<url><loc>/reference/xgeo_point_values.html</loc></url>
+<url><loc>/reference/xgeo_regular_grid.html</loc></url>
 <url><loc>/reference/xgeo_selection.html</loc></url>
 <url><loc>/reference/xgeo_state.html</loc></url>
 </urlset>

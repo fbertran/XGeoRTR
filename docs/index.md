@@ -4,8 +4,9 @@
 
 `XGeoRTR` is a backend-neutral explainable geometry/state package for R.
 It owns geometry-aware state, embeddings, diagnostics, multiscale
-summaries, selection state, and JSON state exchange. Rendering is
-delegated to downstream packages such as `ggWebGL`.
+summaries, selection state, selected backend tables, and JSON state
+exchange. Rendering is delegated to downstream packages such as
+`ggWebGL`.
 
 ## Main features
 
@@ -24,6 +25,10 @@ delegated to downstream packages such as `ggWebGL`.
   - [`xgeo_indices()`](reference/xgeo_indices.md)
   - [`xgeo_selection()`](reference/xgeo_selection.md)
   - [`xgeo_metadata()`](reference/xgeo_metadata.md)
+- Backend-neutral tables:
+  - [`xgeo_explanation_table()`](reference/xgeo_explanation_table.md)
+  - [`xgeo_point_values()`](reference/xgeo_point_values.md)
+  - [`xgeo_regular_grid()`](reference/xgeo_regular_grid.md)
 - Serialization:
   - [`write_xgeo_state()`](reference/write_xgeo_state.md)
   - [`read_xgeo_state()`](reference/read_xgeo_state.md)
@@ -78,10 +83,26 @@ write_xgeo_state(state, out_json)
 restored_state <- read_xgeo_state(out_json)
 ```
 
+## Build downstream tables
+
+``` r
+long_tbl <- xgeo_explanation_table(state)
+point_tbl <- xgeo_point_values(state)
+grid <- xgeo_regular_grid(point_tbl)
+```
+
+Use-case packages should consume these public tables instead of
+inspecting internal ingestion objects.
+
 ## Scope
 
 `XGeoRTR` is upstream of rendering layers. It provides state and
 computation; frontends render that state.
 
-- XGeoRTR: backend geometry/state semantics
+- XGeoRTR: backend geometry/state semantics and generic selected tables
 - ggWebGL (or another renderer): scene, camera, viewport, drawing
+
+The frozen package boundary is documented in `INTERFACE_FREEZE.md`.
+Public `XGeoRTR` objects and serialized payloads must remain free of
+renderer-owned scene, layer, viewport, camera, canvas, theme, shader,
+widget, and export surface fields.

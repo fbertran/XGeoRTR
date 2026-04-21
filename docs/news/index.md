@@ -1,5 +1,19 @@
 # Changelog
 
+## XGeoRTR 0.5.0
+
+- Added `INTERFACE_FREEZE.md` and recursive contract tests to lock the
+  XGeoRTR/ggWebGL ownership boundary.
+- Added renderer-agnostic table helpers:
+  [`xgeo_explanation_table()`](../reference/xgeo_explanation_table.md),
+  [`xgeo_point_values()`](../reference/xgeo_point_values.md), and
+  [`xgeo_regular_grid()`](../reference/xgeo_regular_grid.md).
+- Centralized selection-aware point/feature filtering for downstream
+  packages.
+- Clarified the public interface freeze around `xgeo_state`; use-case
+  packages should consume backend state and generic tables rather than
+  internal data structures.
+
 ## XGeoRTR 0.4.0
 
 - Hard architectural break: `xgeo_scene` has been replaced by

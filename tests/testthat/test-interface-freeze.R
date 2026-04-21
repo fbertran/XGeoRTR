@@ -26,3 +26,22 @@ test_that("exported XGeoRTR API matches backend-only freeze", {
   expect_true(all(expected_exports %in% exports))
   expect_false(any(grepl("scene|render_|camera|viewport", exports)))
 })
+
+test_that("milestone 3 rendering API is removed from XGeoRTR", {
+  removed_api <- c(
+    "geom_xgeo_points",
+    "geom_xgeo_density",
+    "geom_xgeo_surface",
+    "render_xgeo_layer",
+    "render_webgl",
+    "snapshot_webgl"
+  )
+
+  exports <- getNamespaceExports("XGeoRTR")
+  expect_false(any(removed_api %in% exports))
+
+  ns <- asNamespace("XGeoRTR")
+  for (fn in removed_api) {
+    expect_false(exists(fn, envir = ns, inherits = FALSE))
+  }
+})

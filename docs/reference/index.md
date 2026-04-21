@@ -38,6 +38,9 @@
 
   Get attributes from an `xgeo_state`
 
+- [`xgeo_explanation_table()`](xgeo_explanation_table.md) : Build a long
+  explanation table from backend state
+
 - [`xgeo_geometry()`](xgeo_geometry.md) :
 
   Get geometry from an `xgeo_state`
@@ -49,6 +52,12 @@
 - [`xgeo_metadata()`](xgeo_metadata.md) :
 
   Get metadata from an `xgeo_state`
+
+- [`xgeo_point_values()`](xgeo_point_values.md) : Aggregate explanation
+  values per point
+
+- [`xgeo_regular_grid()`](xgeo_regular_grid.md) : Validate and normalize
+  regular-grid data
 
 - [`xgeo_selection()`](xgeo_selection.md) :
 

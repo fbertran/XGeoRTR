@@ -12,8 +12,8 @@
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Backend-Neutral Explainable Geometry State and Operators">
-<meta name="description" content="Provides the platform layer for explanation geometry in R. The package standardizes generic explanation tables into a normalized backend state object, computes embeddings, diagnostics, and multiscale level-of-detail summaries, and serializes backend-neutral state for reproducible workflows. Rendering and viewport orchestration are delegated to downstream frontends such as ggWebGL.">
-<meta property="og:description" content="Provides the platform layer for explanation geometry in R. The package standardizes generic explanation tables into a normalized backend state object, computes embeddings, diagnostics, and multiscale level-of-detail summaries, and serializes backend-neutral state for reproducible workflows. Rendering and viewport orchestration are delegated to downstream frontends such as ggWebGL.">
+<meta name="description" content="Provides the platform layer for explanation geometry in R. The package standardizes generic explanation tables into a normalized backend state object, computes embeddings, diagnostics, and multiscale level-of-detail summaries, and serializes backend-neutral state for reproducible workflows. It also exposes selected long-table and regular-grid views for downstream use-case packages. Rendering and viewport orchestration are delegated to downstream frontends such as ggWebGL.">
+<meta property="og:description" content="Provides the platform layer for explanation geometry in R. The package standardizes generic explanation tables into a normalized backend state object, computes embeddings, diagnostics, and multiscale level-of-detail summaries, and serializes backend-neutral state for reproducible workflows. It also exposes selected long-table and regular-grid views for downstream use-case packages. Rendering and viewport orchestration are delegated to downstream frontends such as ggWebGL.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">XGeoRTR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,7 @@
 <div class="section level2">
 <h2 id="frédéric-bertrand">Frédéric Bertrand<a class="anchor" aria-label="anchor" href="#fr%C3%A9d%C3%A9ric-bertrand"></a>
 </h2>
-<p><code>XGeoRTR</code> is a backend-neutral explainable geometry/state package for R. It owns geometry-aware state, embeddings, diagnostics, multiscale summaries, selection state, and JSON state exchange. Rendering is delegated to downstream packages such as <code>ggWebGL</code>.</p>
+<p><code>XGeoRTR</code> is a backend-neutral explainable geometry/state package for R. It owns geometry-aware state, embeddings, diagnostics, multiscale summaries, selection state, selected backend tables, and JSON state exchange. Rendering is delegated to downstream packages such as <code>ggWebGL</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="main-features">Main features<a class="anchor" aria-label="anchor" href="#main-features"></a>
@@ -80,6 +80,13 @@
 <li><code><a href="reference/xgeo_indices.html">xgeo_indices()</a></code></li>
 <li><code><a href="reference/xgeo_selection.html">xgeo_selection()</a></code></li>
 <li><code><a href="reference/xgeo_metadata.html">xgeo_metadata()</a></code></li>
+</ul>
+</li>
+<li>Backend-neutral tables:
+<ul>
+<li><code><a href="reference/xgeo_explanation_table.html">xgeo_explanation_table()</a></code></li>
+<li><code><a href="reference/xgeo_point_values.html">xgeo_point_values()</a></code></li>
+<li><code><a href="reference/xgeo_regular_grid.html">xgeo_regular_grid()</a></code></li>
 </ul>
 </li>
 <li>Serialization:
@@ -142,13 +149,23 @@
 <span><span class="va">restored_state</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_xgeo_state.html">read_xgeo_state</a></span><span class="op">(</span><span class="va">out_json</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="build-downstream-tables">Build downstream tables<a class="anchor" aria-label="anchor" href="#build-downstream-tables"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">long_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_explanation_table.html">xgeo_explanation_table</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
+<span><span class="va">point_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_point_values.html">xgeo_point_values</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
+<span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_regular_grid.html">xgeo_regular_grid</a></span><span class="op">(</span><span class="va">point_tbl</span><span class="op">)</span></span></code></pre></div>
+<p>Use-case packages should consume these public tables instead of inspecting internal ingestion objects.</p>
+</div>
+<div class="section level2">
 <h2 id="scope">Scope<a class="anchor" aria-label="anchor" href="#scope"></a>
 </h2>
 <p><code>XGeoRTR</code> is upstream of rendering layers. It provides state and computation; frontends render that state.</p>
 <ul>
-<li>XGeoRTR: backend geometry/state semantics</li>
+<li>XGeoRTR: backend geometry/state semantics and generic selected tables</li>
 <li>ggWebGL (or another renderer): scene, camera, viewport, drawing</li>
 </ul>
+<p>The frozen package boundary is documented in <code>INTERFACE_FREEZE.md</code>. Public <code>XGeoRTR</code> objects and serialized payloads must remain free of renderer-owned scene, layer, viewport, camera, canvas, theme, shader, widget, and export surface fields.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

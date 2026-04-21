@@ -8,6 +8,7 @@ standardizes analytic outputs into `xgeo_state` objects with:
 - indices
 - selection
 - level-of-detail summaries
+- selected backend tables
 - metadata
 
 Rendering is delegated to downstream frontends such as `ggWebGL`.
@@ -96,6 +97,26 @@ xgeo_selection(state)
 names(xgeo_metadata(state))
 #> [1] "source"    "sample_id"
 ```
+
+## Build selected backend tables
+
+``` r
+long_tbl <- xgeo_explanation_table(state)
+point_tbl <- xgeo_point_values(state)
+grid <- xgeo_regular_grid(point_tbl)
+
+utils::head(long_tbl)
+#>   point_id  feature value x y z    label
+#> 1  point_1 cell_1_1  0.65 1 1 0 cell_1_1
+utils::head(point_tbl)
+#>   point_id x y z value
+#> 1  point_1 1 1 0  0.65
+names(grid)
+#> [1] "x" "y" "z"
+```
+
+Downstream use-case packages should consume these public tables rather
+than internal ingestion objects.
 
 ## Write and reload state
 

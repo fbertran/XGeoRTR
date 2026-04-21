@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">XGeoRTR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,6 +69,7 @@ objects with:</p>
 <li>indices</li>
 <li>selection</li>
 <li>level-of-detail summaries</li>
+<li>selected backend tables</li>
 <li>metadata</li>
 </ul>
 <p>Rendering is delegated to downstream frontends such as
@@ -159,9 +160,28 @@ objects with:</p>
 <span><span class="co">#&gt; [1] "source"    "sample_id"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="write-and-reload-state">Write and reload state<a class="anchor" aria-label="anchor" href="#write-and-reload-state"></a>
+<h2 id="build-selected-backend-tables">Build selected backend tables<a class="anchor" aria-label="anchor" href="#build-selected-backend-tables"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">long_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xgeo_explanation_table.html">xgeo_explanation_table</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
+<span><span class="va">point_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xgeo_point_values.html">xgeo_point_values</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
+<span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xgeo_regular_grid.html">xgeo_regular_grid</a></span><span class="op">(</span><span class="va">point_tbl</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">long_tbl</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   point_id  feature value x y z    label</span></span>
+<span><span class="co">#&gt; 1  point_1 cell_1_1  0.65 1 1 0 cell_1_1</span></span>
+<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">point_tbl</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   point_id x y z value</span></span>
+<span><span class="co">#&gt; 1  point_1 1 1 0  0.65</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "x" "y" "z"</span></span></code></pre></div>
+<p>Downstream use-case packages should consume these public tables
+rather than internal ingestion objects.</p>
+</div>
+<div class="section level2">
+<h2 id="write-and-reload-state">Write and reload state<a class="anchor" aria-label="anchor" href="#write-and-reload-state"></a>
+</h2>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">json_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".json"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/write_xgeo_state.html">write_xgeo_state</a></span><span class="op">(</span><span class="va">state</span>, <span class="va">json_file</span><span class="op">)</span></span>
 <span><span class="va">restored</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_xgeo_state.html">read_xgeo_state</a></span><span class="op">(</span><span class="va">json_file</span><span class="op">)</span></span>
