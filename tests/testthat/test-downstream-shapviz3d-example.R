@@ -1,14 +1,28 @@
 locate_downstream_example <- function() {
-  path <- file.path(
-    normalizePath(file.path(testthat::test_path(), "..", ".."), mustWork = TRUE),
+  installed <- system.file(
+    "examples",
+    "downstream_shapviz3d_state_tables.R",
+    package = "XGeoRTR"
+  )
+  if (nzchar(installed) && file.exists(installed)) {
+    return(installed)
+  }
+
+  root <- normalizePath(file.path(testthat::test_path(), "..", ".."), mustWork = FALSE)
+  if (!nzchar(root) || !file.exists(root)) {
+    return(NA_character_)
+  }
+
+  source_path <- file.path(
+    root,
     "inst",
     "examples",
     "downstream_shapviz3d_state_tables.R"
   )
-  if (!file.exists(path)) {
+  if (!file.exists(source_path)) {
     return(NA_character_)
   }
-  path
+  source_path
 }
 
 test_that("downstream shapViz3D backend example runs without renderer dependencies", {
@@ -36,12 +50,20 @@ test_that("downstream shapViz3D backend example runs without renderer dependenci
 })
 
 test_that("active docs keep XGeoRTR backend-only and point downstream for figures", {
-  root <- normalizePath(file.path(testthat::test_path(), "..", ".."), mustWork = TRUE)
+  root <- normalizePath(file.path(testthat::test_path(), "..", ".."), mustWork = FALSE)
+  if (!nzchar(root) || !file.exists(root)) {
+    skip("Source docs are unavailable in installed-package checks.")
+  }
+
   files <- c(
     file.path(root, "README.Rmd"),
     file.path(root, "vignettes", "getting-started.Rmd"),
     file.path(root, "inst", "examples", "downstream_shapviz3d_state_tables.R")
   )
+  if (!all(file.exists(files[1:2]))) {
+    skip("Source docs are unavailable in installed-package checks.")
+  }
+
   text <- paste(unlist(lapply(files[file.exists(files)], readLines, warn = FALSE)), collapse = "\n")
 
   expect_true(grepl("shapViz3D", text, fixed = TRUE))
