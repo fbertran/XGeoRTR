@@ -8,6 +8,16 @@ consumers such as `shapViz3D`, `rTDA3D`, and renderer frontends without
 owning their presentation, interaction, or adapter layers. The frozen
 package boundary is documented in `INTERFACE_FREEZE.md`.
 
+## See also
+
+Useful links:
+
+- <https://fbertran.github.io/XGeoRTR/>
+
+- <https://github.com/fbertran/XGeoRTR>
+
+- Report bugs at <https://github.com/fbertran/XGeoRTR/issues>
+
 ## Author
 
 **Maintainer**: Frederic Bertrand <frederic.bertrand@lecnam.net>

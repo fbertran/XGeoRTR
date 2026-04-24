@@ -1,0 +1,21 @@
+XGeoRTR SIGGRAPH figure ranking and final selection
+
+Selected figures
+
+1. xgeort_multiscale.jpg
+Short description: Two-panel UMAP embedding showing global explanation geometry and a zoomed local region with sparse contribution vectors.
+Why selected: It most clearly communicates the global-versus-local explanation structure needed for the poster while keeping colors and arrows readable.
+
+2. xgeort_representative.jpg
+Short description: Representative UMAP embedding with prediction-colored points and sparse contribution-direction arrows.
+Why selected: It works as the single hero image for XGeoRTR because it presents backend explanation state, class structure, and local directions in one uncluttered panel.
+
+3. xgeort_attribution.jpg
+Short description: UMAP embedding where color shows the dominant normalized SHAP-like feature group and glyph size/intensity shows attribution magnitude.
+Why selected: It directly supports the feature-importance-to-space claim with only four feature groups and optional density contours for spatial context.
+
+Not selected
+
+4. xgeort_structure.jpg
+Short description: Static transition paths through embedding neighborhoods ordered by prediction contrast.
+Why not selected: It is conceptually useful, but the long path summaries are visually heavier than the other assets and are less suitable for the compact poster figure set.

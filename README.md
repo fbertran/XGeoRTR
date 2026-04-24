@@ -121,6 +121,34 @@ The package directly supports these backend claims:
 - downstream-consumer readiness for packages such as `shapViz3D`, `rTDA3D`,
   and renderer frontends
 
+## Downstream figure consumers
+
+`XGeoRTR` does not ship the canonical selected poster figures for SHAP
+workflows. Those assets and their SHAP semantics live in the `shapViz3D`
+repository under `siggraph_figures/final_selection/`.
+
+What `XGeoRTR` provides is the backend path that those downstream figures
+consume:
+
+- `as_xgeo_state()` standardizes the long tables
+- `set_xgeo_selection()` controls subset state upstream
+- `xgeo_explanation_table()`, `xgeo_point_values()`, and `xgeo_regular_grid()`
+  expose renderer-neutral tables downstream
+- `compute_xgeo_embedding()`, `compute_xgeo_diagnostics()`, and
+  `build_xgeo_lod()` provide optional backend context without taking over
+  presentation
+
+The backend-only example below shows how the three `shapViz3D` evidence tables
+enter the public `xgeo_state` pipeline when the sibling `shapViz3D` repo is
+available. If that repo is unavailable, the same example falls back to the
+bundled `spatial_demo.csv` so the backend workflow still runs without a SHAP or
+renderer dependency.
+
+
+``` r
+source("inst/examples/downstream_shapviz3d_state_tables.R")
+```
+
 ## Scope
 
 `XGeoRTR` produces backend state and computation products; downstream packages

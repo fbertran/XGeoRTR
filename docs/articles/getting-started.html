@@ -191,9 +191,28 @@ Those packages own presentation, interaction, and front-end
 behavior.</p>
 </div>
 <div class="section level2">
+<h2 id="downstream-figure-consumers">Downstream figure consumers<a class="anchor" aria-label="anchor" href="#downstream-figure-consumers"></a>
+</h2>
+<p><code>XGeoRTR</code> stops at backend state and backend tables. The
+canonical selected figure assets for the SHAP workflow live downstream
+in <code>shapViz3D</code>, where the SHAP semantics and figure selection
+logic are owned.</p>
+<p>The backend-only example below shows the intended consumption
+pattern:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"inst/examples/downstream_shapviz3d_state_tables.R"</span><span class="op">)</span></span></code></pre></div>
+<p>When the sibling <code>shapViz3D</code> repository is available, that
+example reads the three deterministic evidence CSVs from
+<code>shapViz3D</code>, builds <code>xgeo_state</code> objects, applies
+selection, computes optional embedding/diagnostic/LOD state, and emits
+only backend tables. When the downstream repo is unavailable, it falls
+back to the bundled <code>spatial_demo.csv</code> so the example still
+runs without renderer or SHAP-package dependencies.</p>
+</div>
+<div class="section level2">
 <h2 id="write-and-reload-state">Write and reload state<a class="anchor" aria-label="anchor" href="#write-and-reload-state"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">json_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".json"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/write_xgeo_state.html">write_xgeo_state</a></span><span class="op">(</span><span class="va">state</span>, <span class="va">json_file</span><span class="op">)</span></span>
 <span><span class="va">restored</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_xgeo_state.html">read_xgeo_state</a></span><span class="op">(</span><span class="va">json_file</span><span class="op">)</span></span>

@@ -178,6 +178,25 @@
 </ul>
 </div>
 <div class="section level2">
+<h2 id="downstream-figure-consumers">Downstream figure consumers<a class="anchor" aria-label="anchor" href="#downstream-figure-consumers"></a>
+</h2>
+<p><code>XGeoRTR</code> does not ship the canonical selected poster figures for SHAP workflows. Those assets and their SHAP semantics live in the <code>shapViz3D</code> repository under <code>siggraph_figures/final_selection/</code>.</p>
+<p>What <code>XGeoRTR</code> provides is the backend path that those downstream figures consume:</p>
+<ul>
+<li>
+<code><a href="reference/as_xgeo_state.html">as_xgeo_state()</a></code> standardizes the long tables</li>
+<li>
+<code><a href="reference/set_xgeo_selection.html">set_xgeo_selection()</a></code> controls subset state upstream</li>
+<li>
+<code><a href="reference/xgeo_explanation_table.html">xgeo_explanation_table()</a></code>, <code><a href="reference/xgeo_point_values.html">xgeo_point_values()</a></code>, and <code><a href="reference/xgeo_regular_grid.html">xgeo_regular_grid()</a></code> expose renderer-neutral tables downstream</li>
+<li>
+<code><a href="reference/compute_xgeo_embedding.html">compute_xgeo_embedding()</a></code>, <code><a href="reference/compute_xgeo_diagnostics.html">compute_xgeo_diagnostics()</a></code>, and <code><a href="reference/build_xgeo_lod.html">build_xgeo_lod()</a></code> provide optional backend context without taking over presentation</li>
+</ul>
+<p>The backend-only example below shows how the three <code>shapViz3D</code> evidence tables enter the public <code>xgeo_state</code> pipeline when the sibling <code>shapViz3D</code> repo is available. If that repo is unavailable, the same example falls back to the bundled <code>spatial_demo.csv</code> so the backend workflow still runs without a SHAP or renderer dependency.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"inst/examples/downstream_shapviz3d_state_tables.R"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="scope">Scope<a class="anchor" aria-label="anchor" href="#scope"></a>
 </h2>
 <p><code>XGeoRTR</code> produces backend state and computation products; downstream packages decide how to present or interact with those products.</p>

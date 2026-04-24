@@ -129,6 +129,27 @@ summaries for topology-oriented workflows. Renderer frontends can
 consume `xgeo_state` through their own adapter contracts. Those packages
 own presentation, interaction, and front-end behavior.
 
+## Downstream figure consumers
+
+`XGeoRTR` stops at backend state and backend tables. The canonical
+selected figure assets for the SHAP workflow live downstream in
+`shapViz3D`, where the SHAP semantics and figure selection logic are
+owned.
+
+The backend-only example below shows the intended consumption pattern:
+
+``` r
+source("inst/examples/downstream_shapviz3d_state_tables.R")
+```
+
+When the sibling `shapViz3D` repository is available, that example reads
+the three deterministic evidence CSVs from `shapViz3D`, builds
+`xgeo_state` objects, applies selection, computes optional
+embedding/diagnostic/LOD state, and emits only backend tables. When the
+downstream repo is unavailable, it falls back to the bundled
+`spatial_demo.csv` so the example still runs without renderer or
+SHAP-package dependencies.
+
 ## Write and reload state
 
 ``` r
