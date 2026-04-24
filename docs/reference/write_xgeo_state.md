@@ -25,3 +25,14 @@ write_xgeo_state(state, path, pretty = TRUE)
 ## Value
 
 The normalized output path, invisibly.
+
+## Examples
+
+``` r
+state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+path <- tempfile(fileext = ".json")
+
+write_xgeo_state(state, path)
+file.exists(path)
+#> [1] TRUE
+```

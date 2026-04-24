@@ -15,3 +15,11 @@ The \code{metadata} field.
 \description{
 Get metadata from an \code{xgeo_state}
 }
+\examples{
+state <- xgeo_state(
+  matrix(c(1, 2, 3, 4), nrow = 2),
+  metadata = list(source = "demo-state")
+)
+
+xgeo_metadata(state)
+}

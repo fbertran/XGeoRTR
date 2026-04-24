@@ -25,3 +25,19 @@ set_xgeo_lod(state, name = NULL, level = NULL)
 ## Value
 
 The updated `xgeo_state`.
+
+## Examples
+
+``` r
+state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+state <- build_xgeo_lod(state, levels = c(4L, 8L), auto_threshold = 2L)
+state <- set_xgeo_lod(state, name = "density_grid_spatial", level = "4")
+
+state$lod$active
+#> $name
+#> [1] "density_grid_spatial"
+#> 
+#> $level
+#> [1] "4"
+#> 
+```

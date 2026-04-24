@@ -8,6 +8,12 @@
 #' @param auto_threshold Point count threshold used by `lod_level = "auto"`.
 #'
 #' @return The updated `xgeo_state`.
+#'
+#' @examples
+#' state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+#' state <- build_xgeo_lod(state, levels = c(4L, 8L), auto_threshold = 2L)
+#'
+#' names(state$lod$items)
 #' @export
 build_xgeo_lod <- function(state,
                            embedding = NULL,

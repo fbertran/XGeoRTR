@@ -15,3 +15,8 @@ validate_xgeo_state(x)
 \description{
 Validate an \code{xgeo_state} object
 }
+\examples{
+state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+
+validate_xgeo_state(state)
+}

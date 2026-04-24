@@ -9,6 +9,22 @@
 #'
 #' @return A data frame containing `point_id`, `feature`, `value`, `x`, `y`,
 #'   `z`, and any point-, feature-, prediction-, or uncertainty-level metadata.
+#'
+#' @examples
+#' state <- as_xgeo_state(
+#'   data.frame(
+#'     point_id = c("p1", "p1", "p2"),
+#'     feature = c("f1", "f2", "f1"),
+#'     x = c(0, 0, 1),
+#'     y = c(0, 0, 1),
+#'     value = c(1, -0.5, 0.75),
+#'     cluster = c("A", "A", "B")
+#'   ),
+#'   point_id_col = "point_id",
+#'   feature_col = "feature"
+#' )
+#'
+#' xgeo_explanation_table(state)
 #' @export
 xgeo_explanation_table <- function(state, selected = TRUE) {
   validate_xgeo_state(state)
@@ -44,6 +60,23 @@ xgeo_explanation_table <- function(state, selected = TRUE) {
 #'
 #' @return A data frame containing `point_id`, `x`, `y`, `z`, `value`, and any
 #'   point-, prediction-, or uncertainty-level metadata.
+#'
+#' @examples
+#' state <- as_xgeo_state(
+#'   data.frame(
+#'     point_id = c("p1", "p1", "p2", "p2"),
+#'     feature = c("f1", "f2", "f1", "f2"),
+#'     x = c(0, 0, 1, 1),
+#'     y = c(0, 0, 1, 1),
+#'     value = c(1, -0.25, 0.75, 2),
+#'     cluster = c("A", "A", "B", "B")
+#'   ),
+#'   point_id_col = "point_id",
+#'   feature_col = "feature"
+#' )
+#' state <- set_xgeo_selection(state, features = "f1")
+#'
+#' xgeo_point_values(state)
 #' @export
 xgeo_point_values <- function(state, aggregate = sum, selected = TRUE) {
   validate_xgeo_state(state)
@@ -74,6 +107,18 @@ xgeo_point_values <- function(state, aggregate = sum, selected = TRUE) {
 #'
 #' @return A list with `x`, `y`, and `z`, where `z` is a value matrix indexed by
 #'   the returned x and y coordinates.
+#'
+#' @examples
+#' xgeo_regular_grid(
+#'   data.frame(
+#'     x_coord = c(0, 1, 0, 1),
+#'     y_coord = c(0, 0, 1, 1),
+#'     score = c(1, 2, 3, 4)
+#'   ),
+#'   x = "x_coord",
+#'   y = "y_coord",
+#'   value = "score"
+#' )
 #' @export
 xgeo_regular_grid <- function(data, x = "x", y = "y", value = "value") {
   if (!.is_scalar_string(x) || !.is_scalar_string(y) || !.is_scalar_string(value)) {

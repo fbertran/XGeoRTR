@@ -5,6 +5,13 @@
 #' @param pretty Whether to pretty-print the JSON.
 #'
 #' @return The normalized output path, invisibly.
+#'
+#' @examples
+#' state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+#' path <- tempfile(fileext = ".json")
+#'
+#' write_xgeo_state(state, path)
+#' file.exists(path)
 #' @export
 write_xgeo_state <- function(state, path, pretty = TRUE) {
   validate_xgeo_state(state)
@@ -87,6 +94,14 @@ write_xgeo_state <- function(state, path, pretty = TRUE) {
 #' @param path Path to a JSON state file.
 #'
 #' @return An `xgeo_state` object.
+#'
+#' @examples
+#' state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+#' path <- tempfile(fileext = ".json")
+#' write_xgeo_state(state, path)
+#'
+#' restored <- read_xgeo_state(path)
+#' class(restored)
 #' @export
 read_xgeo_state <- function(path) {
   payload <- jsonlite::fromJSON(path, simplifyDataFrame = TRUE)

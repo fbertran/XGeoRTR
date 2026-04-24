@@ -23,3 +23,15 @@ the returned x and y coordinates.
 \code{xgeo_regular_grid()} validates a complete 2D regular grid and returns the
 grid vectors and value matrix without creating a renderer-specific object.
 }
+\examples{
+xgeo_regular_grid(
+  data.frame(
+    x_coord = c(0, 1, 0, 1),
+    y_coord = c(0, 0, 1, 1),
+    score = c(1, 2, 3, 4)
+  ),
+  x = "x_coord",
+  y = "y_coord",
+  value = "score"
+)
+}

@@ -17,3 +17,16 @@ An \code{xgeo_state} object.
 \description{
 Coerce inputs to \code{xgeo_state}
 }
+\examples{
+as_xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+
+as_xgeo_state(
+  data.frame(
+    point_id = c("p1", "p1", "p2"),
+    feature = c("f1", "f2", "f1"),
+    x = c(0, 0, 1),
+    y = c(0, 0, 1),
+    value = c(1, -0.5, 0.75)
+  )
+)
+}

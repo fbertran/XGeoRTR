@@ -15,3 +15,9 @@ The \code{selection} field.
 \description{
 Get selection from an \code{xgeo_state}
 }
+\examples{
+state <- xgeo_state(matrix(c(1, 2, 3, 4), nrow = 2))
+state <- set_xgeo_selection(state, point_ids = state$indices$point_ids[[1]])
+
+xgeo_selection(state)
+}

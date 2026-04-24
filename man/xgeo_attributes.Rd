@@ -15,3 +15,8 @@ The \code{attributes} field.
 \description{
 Get attributes from an \code{xgeo_state}
 }
+\examples{
+state <- xgeo_state(matrix(c(1, 2, 3, 4), nrow = 2))
+
+names(xgeo_attributes(state))
+}

@@ -19,3 +19,10 @@ The normalized output path, invisibly.
 \description{
 Write a backend state to JSON
 }
+\examples{
+state <- xgeo_state(matrix(c(1, -1, 2, 0), nrow = 2))
+path <- tempfile(fileext = ".json")
+
+write_xgeo_state(state, path)
+file.exists(path)
+}

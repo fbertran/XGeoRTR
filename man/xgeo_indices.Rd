@@ -15,3 +15,8 @@ The \code{indices} field.
 \description{
 Get indices from an \code{xgeo_state}
 }
+\examples{
+state <- xgeo_state(matrix(c(1, 2, 3, 4), nrow = 2))
+
+xgeo_indices(state)
+}

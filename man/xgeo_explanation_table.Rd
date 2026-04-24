@@ -20,3 +20,19 @@ A data frame containing \code{point_id}, \code{feature}, \code{value}, \code{x},
 with point coordinates and metadata. It is renderer-agnostic and contains no
 use-case-specific presentation semantics.
 }
+\examples{
+state <- as_xgeo_state(
+  data.frame(
+    point_id = c("p1", "p1", "p2"),
+    feature = c("f1", "f2", "f1"),
+    x = c(0, 0, 1),
+    y = c(0, 0, 1),
+    value = c(1, -0.5, 0.75),
+    cluster = c("A", "A", "B")
+  ),
+  point_id_col = "point_id",
+  feature_col = "feature"
+)
+
+xgeo_explanation_table(state)
+}
