@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">XGeoRTR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,6 +56,27 @@
 </h2>
 <p><code>XGeoRTR</code> is explainable geometry backend infrastructure for R, positioned for SIGGRAPH 2026 workflows that need reusable state rather than package-specific presentation code. It owns geometry-aware state, embeddings, diagnostics, multiscale summaries, selection state, selected backend tables, and JSON state exchange.</p>
 <p>Downstream packages such as <code>shapViz3D</code>, <code>rTDA3D</code>, and renderer frontends can consume <code>xgeo_state</code> or exported backend tables without XGeoRTR taking ownership of their display, interaction, or use-case presentation layers.</p>
+</div>
+<div class="section level2">
+<h2 id="role-in-geoxgl">Role in GeoXGL<a class="anchor" aria-label="anchor" href="#role-in-geoxgl"></a>
+</h2>
+<p><code>XGeoRTR</code> is the geometry/state backend of the <a href="https://fbertran.github.io/GeoXGL/" class="external-link"><code>GeoXGL</code></a> ecosystem, a modular R/WebGL stack for scalable statistical graphics, explanation geometry, and scientific visualization.</p>
+<p>Within GeoXGL:</p>
+<ul>
+<li>
+<code>XGeoRTR</code> owns backend-neutral explanation geometry, <code>xgeo_state</code>, embeddings, diagnostics, level-of-detail summaries, selection state, public backend tables, and JSON state exchange.</li>
+<li>
+<code>ggWebGL</code> owns browser-native WebGL rendering, widgets, viewport interaction, shader execution, and static export surfaces.</li>
+<li>
+<code>shapViz3D</code> and other use-case packages own domain semantics and downstream layout mappings.</li>
+</ul>
+<p>This package does not own rendering, viewport orchestration, camera control, canvas management, shader execution, widget construction, visual themes, or export surfaces. Those responsibilities remain in renderer frontends such as <code>ggWebGL</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="current-scope-and-future-work">Current scope and future work<a class="anchor" aria-label="anchor" href="#current-scope-and-future-work"></a>
+</h2>
+<p><strong>Current scope:</strong> backend state, coercion, embeddings, diagnostics, level-of-detail summaries, selections, explanation tables, point-value tables, regular-grid tables, and JSON serialization.</p>
+<p><strong>Future/prototype scope:</strong> topology-specific reasoning, prediction-regime path semantics, and large-scale performance claims should be presented only when supported by concrete downstream examples or benchmark artifacts. Causal explanation is outside the current package scope.</p>
 </div>
 <div class="section level2">
 <h2 id="main-features">Main features<a class="anchor" aria-label="anchor" href="#main-features"></a>

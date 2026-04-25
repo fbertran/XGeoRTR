@@ -1,5 +1,17 @@
 # Changelog
 
+## XGeoRTR 0.7.0
+
+## XGeoRTR 0.6.0
+
+- Added runnable, CRAN-safe examples to all exported help topics so
+  package checks no longer report `checking examples ... NONE`.
+- Added documentation coverage tests to ensure exported `.Rd` topics
+  retain `\examples{}` sections and to prevent regressions in future
+  releases.
+- No backend contract or public API changes in this release; the update
+  is limited to documentation quality and release-check stability.
+
 ## XGeoRTR 0.5.0
 
 - Added `INTERFACE_FREEZE.md` and recursive contract tests to lock the

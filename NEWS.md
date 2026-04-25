@@ -1,3 +1,6 @@
+# XGeoRTR 0.7.0
+
+
 # XGeoRTR 0.6.0
 
 - Added runnable, CRAN-safe examples to all exported help topics so package

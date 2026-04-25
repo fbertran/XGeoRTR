@@ -17,6 +17,38 @@ Downstream packages such as `shapViz3D`, `rTDA3D`, and renderer frontends can
 consume `xgeo_state` or exported backend tables without XGeoRTR taking ownership
 of their display, interaction, or use-case presentation layers.
 
+## Role in GeoXGL
+
+`XGeoRTR` is the geometry/state backend of the [`GeoXGL`](https://fbertran.github.io/GeoXGL/)
+ecosystem, a modular R/WebGL stack for scalable statistical graphics,
+explanation geometry, and scientific visualization.
+
+Within GeoXGL:
+
+- `XGeoRTR` owns backend-neutral explanation geometry, `xgeo_state`, embeddings,
+  diagnostics, level-of-detail summaries, selection state, public backend tables,
+  and JSON state exchange.
+- `ggWebGL` owns browser-native WebGL rendering, widgets, viewport interaction,
+  shader execution, and static export surfaces.
+- `shapViz3D` and other use-case packages own domain semantics and downstream
+  layout mappings.
+
+This package does not own rendering, viewport orchestration, camera control,
+canvas management, shader execution, widget construction, visual themes, or
+export surfaces. Those responsibilities remain in renderer frontends such as
+`ggWebGL`.
+
+## Current scope and future work
+
+**Current scope:** backend state, coercion, embeddings, diagnostics,
+level-of-detail summaries, selections, explanation tables, point-value tables,
+regular-grid tables, and JSON serialization.
+
+**Future/prototype scope:** topology-specific reasoning, prediction-regime path
+semantics, and large-scale performance claims should be presented only when
+supported by concrete downstream examples or benchmark artifacts. Causal
+explanation is outside the current package scope.
+
 ## Main features
 
 - Canonical backend object: `xgeo_state()`

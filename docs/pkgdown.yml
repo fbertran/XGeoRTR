@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
-last_built: 2026-04-21T19:06Z
+last_built: 2026-04-25T20:11Z
 urls:
   reference: https://fbertran.github.io/XGeoRTR/reference
   article: https://fbertran.github.io/XGeoRTR/articles
