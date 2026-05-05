@@ -25,8 +25,8 @@ Within GeoXGL:
   diagnostics, level-of-detail summaries, selection state, public backend tables,
   and JSON state exchange.
 - `ggWebGL`, available as a CRAN renderer frontend, owns browser-native WebGL
-  rendering, widgets, viewport interaction, shader execution, 
-  and static export surfaces.
+  rendering, widgets, viewport interaction, shader execution, and static export 
+  surfaces.
 - `shapViz3D` and other use-case packages own domain semantics and downstream
   layout mappings.
 
@@ -169,9 +169,9 @@ The package directly supports these backend capabilities:
 
 ## Downstream use-case consumers
 
-`XGeoRTR` does not ship use-case-specific presentation assets. Shapley-specific 
-semantics belong in Shapley-oriented downstream packages, topology-specific 
-semantics belong in topology-oriented downstream packages, and display 
+`XGeoRTR` does not ship use-case-specific presentation assets. Shapley-specific
+semantics belong in Shapley-oriented downstream packages, topology-specific
+semantics belong in topology-oriented downstream packages, and display
 orchestration belongs in renderer frontends.
 
 What `XGeoRTR` provides is the backend path that downstream consumers can use:
