@@ -34,4 +34,3 @@ vignettes/*.pdf
 .Renviron
 .DS_Store
 extra_docs/
-MVP_SCOPE.md
