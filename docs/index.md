@@ -1,4 +1,4 @@
-# XGeoRTR: Backend-Neutral Explainable Geometry State and Operators ![](reference/figures/logo.png)
+# XGeoRTR: Backend-Neutral Explainable Geometry State and Operators ![](reference/figures/logo_XGeoRTR.png)
 
 ## Frédéric Bertrand
 

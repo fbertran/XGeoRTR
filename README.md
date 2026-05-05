@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# XGeoRTR: Backend-Neutral Explainable Geometry State and Operators <img src="man/figures/logo.png" align="right" width="200"/>
+# XGeoRTR: Backend-Neutral Explainable Geometry State and Operators <img src="man/figures/logo_XGeoRTR.png" align="right" width="200"/>
 ## Frédéric Bertrand
 
 `XGeoRTR` is explainable geometry backend infrastructure for R workflows that
