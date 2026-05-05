@@ -3,10 +3,14 @@
 # Generate static SIGGRAPH-style XGeoRTR backend-state figures.
 # Usage:
 #   Rscript siggraph_figures/scripts/generate_xgeort_siggraph_figures.R [output_dir]
+#
+# This directory is ignored by Rbuild, so this script is not part of CRAN checks.
+# Still, default to tempdir() rather than getwd() to avoid accidental writes to
+# a user's working directory when the script is run without arguments.
 
 out_dir <- commandArgs(trailingOnly = TRUE)[1]
 if (is.na(out_dir) || !nzchar(out_dir)) {
-  out_dir <- getwd()
+  out_dir <- file.path(tempdir(), "xgeortr_siggraph_figures")
 }
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
