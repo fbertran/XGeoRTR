@@ -186,19 +186,20 @@ rather than internal ingestion objects.</p>
 <p><code>shapViz3D</code> can consume explanation and point-value tables
 for Shapley-oriented workflows. <code>rTDA3D</code> can consume point
 and grid summaries for topology-oriented workflows. Renderer frontends
-can consume <code>xgeo_state</code> through their own adapter contracts.
-Those packages own presentation, interaction, and front-end
-behavior.</p>
+such as <code>ggWebGL</code> can consume <code>xgeo_state</code> through
+their own adapter contracts. Those packages own presentation,
+interaction, and front-end behavior.</p>
 </div>
 <div class="section level2">
-<h2 id="downstream-figure-consumers">Downstream figure consumers<a class="anchor" aria-label="anchor" href="#downstream-figure-consumers"></a>
+<h2 id="downstream-use-case-consumers">Downstream use-case consumers<a class="anchor" aria-label="anchor" href="#downstream-use-case-consumers"></a>
 </h2>
-<p><code>XGeoRTR</code> stops at backend state and backend tables. The
-canonical selected figure assets for the SHAP workflow live downstream
-in <code>shapViz3D</code>, where the SHAP semantics and figure selection
-logic are owned.</p>
-<p>The backend-only example below shows the intended consumption
-pattern:</p>
+<p>XGeoRTR stops at backend state and backend tables. It does not ship
+use-case-specific presentation assets. SHAP semantics belong downstream
+in a Shapley-oriented package, topology semantics belong downstream in a
+topology-oriented package, and display orchestration belongs in renderer
+frontends such as <code>ggWebGL</code>.</p>
+<p>The backend-only example below shows the intended
+downstream-consumption pattern:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"inst/examples/downstream_shapviz3d_state_tables.R"</span><span class="op">)</span></span></code></pre></div>
 <p>When the sibling <code>shapViz3D</code> repository is available, that

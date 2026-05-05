@@ -49,7 +49,7 @@ test_that("downstream shapViz3D backend example runs without renderer dependenci
   expect_true(all(c("x", "y", "z") %in% names(first$regular_grid)))
 })
 
-test_that("active docs keep XGeoRTR backend-only and point downstream for figures", {
+test_that("active docs keep XGeoRTR backend-only and point downstream for use-case semantics", {
   root <- normalizePath(file.path(testthat::test_path(), "..", ".."), mustWork = FALSE)
   if (!nzchar(root) || !file.exists(root)) {
     skip("Source docs are unavailable in installed-package checks.")

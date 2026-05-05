@@ -49,12 +49,12 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="xgeortr">XGeoRTR<a class="anchor" aria-label="anchor" href="#xgeortr"></a>
+<div class="page-header"><h1 id="xgeortr-backend-neutral-explainable-geometry-state-and-operators-">XGeoRTR: Backend-Neutral Explainable Geometry State and Operators <img src="reference/figures/logo.png" align="right" width="200"><a class="anchor" aria-label="anchor" href="#xgeortr-backend-neutral-explainable-geometry-state-and-operators-"></a>
 </h1></div>
 <div class="section level2">
 <h2 id="frédéric-bertrand">Frédéric Bertrand<a class="anchor" aria-label="anchor" href="#fr%C3%A9d%C3%A9ric-bertrand"></a>
 </h2>
-<p><code>XGeoRTR</code> is explainable geometry backend infrastructure for R, positioned for SIGGRAPH 2026 workflows that need reusable state rather than package-specific presentation code. It owns geometry-aware state, embeddings, diagnostics, multiscale summaries, selection state, selected backend tables, and JSON state exchange.</p>
+<p><code>XGeoRTR</code> is explainable geometry backend infrastructure for R workflows that need reusable analytic state rather than package-specific presentation code. It owns geometry-aware state, embeddings, diagnostics, multiscale summaries, selection state, selected backend tables, and JSON state exchange.</p>
 <p>Downstream packages such as <code>shapViz3D</code>, <code>rTDA3D</code>, and renderer frontends can consume <code>xgeo_state</code> or exported backend tables without XGeoRTR taking ownership of their display, interaction, or use-case presentation layers.</p>
 </div>
 <div class="section level2">
@@ -66,7 +66,7 @@
 <li>
 <code>XGeoRTR</code> owns backend-neutral explanation geometry, <code>xgeo_state</code>, embeddings, diagnostics, level-of-detail summaries, selection state, public backend tables, and JSON state exchange.</li>
 <li>
-<code>ggWebGL</code> owns browser-native WebGL rendering, widgets, viewport interaction, shader execution, and static export surfaces.</li>
+<code>ggWebGL</code>, available as a CRAN renderer frontend, owns browser-native WebGL rendering, widgets, viewport interaction, shader execution, and static export surfaces.</li>
 <li>
 <code>shapViz3D</code> and other use-case packages own domain semantics and downstream layout mappings.</li>
 </ul>
@@ -164,9 +164,34 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="popular-r-workflow-examples">Popular R workflow examples<a class="anchor" aria-label="anchor" href="#popular-r-workflow-examples"></a>
+</h2>
+<p>The file <code>inst/examples/popular_r_workflows.R</code> shows how outputs from common R workflows can be standardized as backend explanation geometry:</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">stats::lm()</a></code> on <code>mtcars</code>
+</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/glm.html" class="external-link">stats::glm()</a></code> on <code>mtcars</code>
+</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans()</a></code> on <code>iris</code>
+</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">stats::prcomp()</a></code> on <code>USArrests</code>
+</li>
+<li>optional <code><a href="https://rdrr.io/pkg/rpart/man/rpart.html" class="external-link">rpart::rpart()</a></code> on <code>iris</code>, when <code>rpart</code> is installed</li>
+<li>matrix-to-grid conversion using <code><a href="https://rdrr.io/r/datasets/volcano.html" class="external-link">datasets::volcano</a></code>
+</li>
+</ul>
+<p>The examples produce <code>xgeo_state</code> objects, compute PCA embeddings, diagnostics, and LOD summaries, expose long and point-level backend tables, and demonstrate JSON serialization through <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile()</a></code>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"popular_r_workflows.R"</span>, package <span class="op">=</span> <span class="st">"XGeoRTR"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="write-and-reload-state">Write and reload state<a class="anchor" aria-label="anchor" href="#write-and-reload-state"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out_json</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".json"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/write_xgeo_state.html">write_xgeo_state</a></span><span class="op">(</span><span class="va">state</span>, <span class="va">out_json</span><span class="op">)</span></span>
 <span><span class="va">restored_state</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_xgeo_state.html">read_xgeo_state</a></span><span class="op">(</span><span class="va">out_json</span><span class="op">)</span></span></code></pre></div>
@@ -174,16 +199,16 @@
 <div class="section level2">
 <h2 id="build-downstream-tables">Build downstream tables<a class="anchor" aria-label="anchor" href="#build-downstream-tables"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">long_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_explanation_table.html">xgeo_explanation_table</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
 <span><span class="va">point_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_point_values.html">xgeo_point_values</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
 <span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xgeo_regular_grid.html">xgeo_regular_grid</a></span><span class="op">(</span><span class="va">point_tbl</span><span class="op">)</span></span></code></pre></div>
 <p>Use-case packages should consume these public tables instead of inspecting internal ingestion objects. For example, a Shapley-oriented package can consume selected explanation tables, while a topology-oriented package can consume point and regular-grid summaries as backend inputs.</p>
 </div>
 <div class="section level2">
-<h2 id="supported-poster-claims">Supported poster claims<a class="anchor" aria-label="anchor" href="#supported-poster-claims"></a>
+<h2 id="supported-package-claims">Supported package claims<a class="anchor" aria-label="anchor" href="#supported-package-claims"></a>
 </h2>
-<p>The package directly supports these backend claims:</p>
+<p>The package directly supports these backend capabilities:</p>
 <ul>
 <li>canonical backend state: <code>xgeo_state</code>
 </li>
@@ -199,10 +224,10 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="downstream-figure-consumers">Downstream figure consumers<a class="anchor" aria-label="anchor" href="#downstream-figure-consumers"></a>
+<h2 id="downstream-use-case-consumers">Downstream use-case consumers<a class="anchor" aria-label="anchor" href="#downstream-use-case-consumers"></a>
 </h2>
-<p><code>XGeoRTR</code> does not ship the canonical selected poster figures for SHAP workflows. Those assets and their SHAP semantics live in the <code>shapViz3D</code> repository under <code>siggraph_figures/final_selection/</code>.</p>
-<p>What <code>XGeoRTR</code> provides is the backend path that those downstream figures consume:</p>
+<p><code>XGeoRTR</code> does not ship use-case-specific presentation assets. Shapley-specific semantics belong in Shapley-oriented downstream packages, topology-specific semantics belong in topology-oriented downstream packages, and display orchestration belongs in renderer frontends.</p>
+<p>What <code>XGeoRTR</code> provides is the backend path that downstream consumers can use:</p>
 <ul>
 <li>
 <code><a href="reference/as_xgeo_state.html">as_xgeo_state()</a></code> standardizes the long tables</li>
@@ -212,9 +237,11 @@
 <code><a href="reference/xgeo_explanation_table.html">xgeo_explanation_table()</a></code>, <code><a href="reference/xgeo_point_values.html">xgeo_point_values()</a></code>, and <code><a href="reference/xgeo_regular_grid.html">xgeo_regular_grid()</a></code> expose renderer-neutral tables downstream</li>
 <li>
 <code><a href="reference/compute_xgeo_embedding.html">compute_xgeo_embedding()</a></code>, <code><a href="reference/compute_xgeo_diagnostics.html">compute_xgeo_diagnostics()</a></code>, and <code><a href="reference/build_xgeo_lod.html">build_xgeo_lod()</a></code> provide optional backend context without taking over presentation</li>
+<li>renderer frontends such as <code>ggWebGL</code> can convert <code>xgeo_state</code> objects or exported backend tables into display-specific WebGL specifications without moving rendering responsibilities into <code>XGeoRTR</code>
+</li>
 </ul>
-<p>The backend-only example below shows how the three <code>shapViz3D</code> evidence tables enter the public <code>xgeo_state</code> pipeline when the sibling <code>shapViz3D</code> repo is available. If that repo is unavailable, the same example falls back to the bundled <code>spatial_demo.csv</code> so the backend workflow still runs without a SHAP or renderer dependency.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>The backend-only example below shows the intended consumption pattern for a downstream package. If the downstream data source is unavailable, the same example falls back to the bundled <code>spatial_demo.csv</code> so the backend workflow still runs without a SHAP or renderer dependency.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"inst/examples/downstream_shapviz3d_state_tables.R"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">

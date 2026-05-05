@@ -94,16 +94,19 @@ internal ingestion objects.
 
 `shapViz3D` can consume explanation and point-value tables for Shapley-oriented
 workflows. `rTDA3D` can consume point and grid summaries for topology-oriented
-workflows. Renderer frontends can consume `xgeo_state` through their own adapter
-contracts. Those packages own presentation, interaction, and front-end behavior.
+workflows. Renderer frontends such as `ggWebGL` can consume `xgeo_state` through
+their own adapter contracts. Those packages own presentation, interaction, and
+front-end behavior.
 
-## Downstream figure consumers
+## Downstream use-case consumers
 
-`XGeoRTR` stops at backend state and backend tables. The canonical selected
-figure assets for the SHAP workflow live downstream in `shapViz3D`, where the
-SHAP semantics and figure selection logic are owned.
+XGeoRTR stops at backend state and backend tables. It does not ship
+use-case-specific presentation assets. SHAP semantics belong downstream in a
+Shapley-oriented package, topology semantics belong downstream in a
+topology-oriented package, and display orchestration belongs in renderer 
+frontends such as `ggWebGL`.
 
-The backend-only example below shows the intended consumption pattern:
+The backend-only example below shows the intended downstream-consumption pattern:
 
 ```{r eval = FALSE}
 source("inst/examples/downstream_shapviz3d_state_tables.R")

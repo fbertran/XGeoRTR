@@ -2,6 +2,15 @@
 
 ## XGeoRTR 0.7.0
 
+- Added a CRAN-safe popular R workflow example script covering
+  [`stats::lm()`](https://rdrr.io/r/stats/lm.html),
+  [`stats::glm()`](https://rdrr.io/r/stats/glm.html),
+  [`stats::kmeans()`](https://rdrr.io/r/stats/kmeans.html),
+  [`stats::prcomp()`](https://rdrr.io/r/stats/prcomp.html), optional
+  [`rpart::rpart()`](https://rdrr.io/pkg/rpart/man/rpart.html), and
+  matrix-to-grid conversion through
+  [`datasets::volcano`](https://rdrr.io/r/datasets/volcano.html).
+
 ## XGeoRTR 0.6.0
 
 - Added runnable, CRAN-safe examples to all exported help topics so

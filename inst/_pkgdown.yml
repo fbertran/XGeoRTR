@@ -29,6 +29,7 @@ articles:
   - title: Basics
     contents:
       - getting-started
+      - popular-r-workflows
 
 footer:
   structure:

@@ -1,15 +1,11 @@
----
-output: github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# XGeoRTR
+# XGeoRTR: Backend-Neutral Explainable Geometry State and Operators <img src="man/figures/logo.png" align="right" width="200"/>
 ## Frédéric Bertrand
 
-`XGeoRTR` is explainable geometry backend infrastructure for R, positioned for
-SIGGRAPH 2026 workflows that need reusable state rather than package-specific
-presentation code. It owns geometry-aware state, embeddings, diagnostics,
+`XGeoRTR` is explainable geometry backend infrastructure for R workflows that
+need reusable analytic state rather than package-specific presentation code. It
+owns geometry-aware state, embeddings, diagnostics,
 multiscale summaries, selection state, selected backend tables, and JSON state
 exchange.
 
@@ -28,8 +24,9 @@ Within GeoXGL:
 - `XGeoRTR` owns backend-neutral explanation geometry, `xgeo_state`, embeddings,
   diagnostics, level-of-detail summaries, selection state, public backend tables,
   and JSON state exchange.
-- `ggWebGL` owns browser-native WebGL rendering, widgets, viewport interaction,
-  shader execution, and static export surfaces.
+- `ggWebGL`, available as a CRAN renderer frontend, owns browser-native WebGL
+  rendering, widgets, viewport interaction, shader execution, 
+  and static export surfaces.
 - `shapViz3D` and other use-case packages own domain semantics and downstream
   layout mappings.
 
@@ -117,6 +114,27 @@ state <- set_xgeo_selection(state, point_ids = state$indices$point_ids[[1]])
 summary(state)
 ```
 
+## Popular R workflow examples
+
+The file `inst/examples/popular_r_workflows.R` shows how outputs from common R
+workflows can be standardized as backend explanation geometry:
+
+- `stats::lm()` on `mtcars`
+- `stats::glm()` on `mtcars`
+- `stats::kmeans()` on `iris`
+- `stats::prcomp()` on `USArrests`
+- optional `rpart::rpart()` on `iris`, when `rpart` is installed
+- matrix-to-grid conversion using `datasets::volcano`
+
+The examples produce `xgeo_state` objects, compute PCA embeddings, diagnostics,
+and LOD summaries, expose long and point-level backend tables, and demonstrate
+JSON serialization through `tempfile()`.
+
+
+``` r
+source(system.file("examples", "popular_r_workflows.R", package = "XGeoRTR"))
+```
+
 ## Write and reload state
 
 
@@ -140,9 +158,9 @@ internal ingestion objects. For example, a Shapley-oriented package can consume
 selected explanation tables, while a topology-oriented package can consume point
 and regular-grid summaries as backend inputs.
 
-## Supported poster claims
+## Supported package claims
 
-The package directly supports these backend claims:
+The package directly supports these backend capabilities:
 
 - canonical backend state: `xgeo_state`
 - tabular-to-state ingestion: `as_xgeo_state`
@@ -153,14 +171,14 @@ The package directly supports these backend claims:
 - downstream-consumer readiness for packages such as `shapViz3D`, `rTDA3D`,
   and renderer frontends
 
-## Downstream figure consumers
+## Downstream use-case consumers
 
-`XGeoRTR` does not ship the canonical selected poster figures for SHAP
-workflows. Those assets and their SHAP semantics live in the `shapViz3D`
-repository under `siggraph_figures/final_selection/`.
+`XGeoRTR` does not ship use-case-specific presentation assets. Shapley-specific 
+semantics belong in Shapley-oriented downstream packages, topology-specific 
+semantics belong in topology-oriented downstream packages, and display 
+orchestration belongs in renderer frontends.
 
-What `XGeoRTR` provides is the backend path that those downstream figures
-consume:
+What `XGeoRTR` provides is the backend path that downstream consumers can use:
 
 - `as_xgeo_state()` standardizes the long tables
 - `set_xgeo_selection()` controls subset state upstream
@@ -169,12 +187,14 @@ consume:
 - `compute_xgeo_embedding()`, `compute_xgeo_diagnostics()`, and
   `build_xgeo_lod()` provide optional backend context without taking over
   presentation
+- renderer frontends such as `ggWebGL` can convert `xgeo_state` objects or
+  exported backend tables into display-specific WebGL specifications without
+  moving rendering responsibilities into `XGeoRTR`
 
-The backend-only example below shows how the three `shapViz3D` evidence tables
-enter the public `xgeo_state` pipeline when the sibling `shapViz3D` repo is
-available. If that repo is unavailable, the same example falls back to the
-bundled `spatial_demo.csv` so the backend workflow still runs without a SHAP or
-renderer dependency.
+The backend-only example below shows the intended consumption pattern for a
+downstream package. If the downstream data source is unavailable, the same
+example falls back to the bundled `spatial_demo.csv` so the backend workflow
+still runs without a SHAP or renderer dependency.
 
 
 ``` r
