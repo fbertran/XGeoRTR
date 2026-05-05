@@ -1,5 +1,8 @@
 # XGeoRTR 0.7.0
 
+- Added a CRAN-safe popular R workflow example script covering `stats::lm()`,
+  `stats::glm()`, `stats::kmeans()`, `stats::prcomp()`, optional
+  `rpart::rpart()`, and matrix-to-grid conversion through `datasets::volcano`.
 
 # XGeoRTR 0.6.0
 

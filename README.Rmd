@@ -1,10 +1,6 @@
----
-output: github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# XGeoRTR
+# XGeoRTR: Backend-Neutral Explainable Geometry State and Operators <img src="man/figures/logo.png" align="right" width="200"/>
 ## Frédéric Bertrand
 
 `XGeoRTR` is explainable geometry backend infrastructure for R, positioned for
@@ -114,6 +110,26 @@ state <- build_xgeo_lod(state, embedding = "pca_points", levels = c(8L, 16L), au
 state <- set_xgeo_selection(state, point_ids = state$indices$point_ids[[1]])
 
 summary(state)
+```
+
+## Popular R workflow examples
+
+The file `inst/examples/popular_r_workflows.R` shows how outputs from common R
+workflows can be standardized as backend explanation geometry:
+
+- `stats::lm()` on `mtcars`
+- `stats::glm()` on `mtcars`
+- `stats::kmeans()` on `iris`
+- `stats::prcomp()` on `USArrests`
+- optional `rpart::rpart()` on `iris`, when `rpart` is installed
+- matrix-to-grid conversion using `datasets::volcano`
+
+The examples produce `xgeo_state` objects, compute PCA embeddings, diagnostics,
+and LOD summaries, expose long and point-level backend tables, and demonstrate
+JSON serialization through `tempfile()`.
+
+```{r popular-workflows-example, eval = FALSE}
+source(system.file("examples", "popular_r_workflows.R", package = "XGeoRTR"))
 ```
 
 ## Write and reload state

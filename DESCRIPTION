@@ -14,7 +14,7 @@ Description: Provides the platform layer for explanation geometry in R.
     level-of-detail summaries, and serializes backend-neutral state for
     reproducible workflows. It also exposes selected long-table and regular-grid
     views for downstream use-case packages. Rendering and viewport
-    orchestration are delegated to downstream frontends such as ggWebGL.
+    orchestration are delegated to downstream frontends such as 'ggWebGL'.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
