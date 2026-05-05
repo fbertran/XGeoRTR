@@ -12,3 +12,7 @@
 ^benchmark-results$
 ^docs$
 ^extra_docs$
+^siggraph_figures.*$
+^cran-comments\\.md$
+
+
