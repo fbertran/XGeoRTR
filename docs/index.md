@@ -36,6 +36,9 @@ control, canvas management, shader execution, widget construction,
 visual themes, or export surfaces. Those responsibilities remain in
 renderer frontends such as `ggWebGL`.
 
+Compatibility claims should be read through the GeoXGL interface
+contract rather than through renderer internals.
+
 ## Current scope and future work
 
 **Current scope:** backend state, coercion, embeddings, diagnostics,
