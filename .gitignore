@@ -70,7 +70,5 @@ vignettes/*.pdf
 .Renviron
 .DS_Store
 extra_docs/
-siggraph_figures
-siggraph_figures/
 
-
+internal/

@@ -15,4 +15,4 @@
 ^siggraph_figures.*$
 ^cran-comments\\.md$
 
-
+^internal.*$
